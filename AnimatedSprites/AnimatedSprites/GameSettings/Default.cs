@@ -17,7 +17,6 @@ namespace AnimatedSprites.GameSettings
 {
     static class Default
     {
-        private static Game game = new Game();
         public static SpriteSettings GetCustomSetting(int defaultMillisecondsPerFrame, int originalSpeed, Texture2D textureImage,
             Point sheetSize, Point frameSize, Point firstFrame, Vector2 startPosition, int collisionOffset, string collisionCueName)
         {
@@ -35,7 +34,7 @@ namespace AnimatedSprites.GameSettings
             return spriteSettings;
         }
 
-        public static SpriteSettings GetMissleSetting()
+        public static SpriteSettings GetMissleSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
                 new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");
@@ -43,7 +42,7 @@ namespace AnimatedSprites.GameSettings
         }
 
 
-        public static SpriteSettings GetTankSetting()
+        public static SpriteSettings GetTankSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
                 new Point(11, 11), new Vector2(50, 50), 1, "CollisionMissle");
