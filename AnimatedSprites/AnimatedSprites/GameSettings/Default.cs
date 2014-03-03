@@ -37,32 +37,16 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetMissleSetting()
         {
-            SpriteSettings spriteSettings = new SpriteSettings();
-            spriteSettings.DefaultMillisecondsPerFrame = 1;
-            spriteSettings.OriginalSpeed = 5;
-            spriteSettings.TextureImage = game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png");
-            spriteSettings.SheetSize = new Point(100, 100);
-            spriteSettings.FrameSize = new Point(5, 5);
-            spriteSettings.FirstFrame = new Point(1, 1);
-            //spriteSettings.StartPosition = new Vector2(50, 50);
-            spriteSettings.CollisionOffset = 1;
-            spriteSettings.CollisionCueName = "CollisionMissle";
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
+                new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");
             return spriteSettings;
         }
 
 
         public static SpriteSettings GetTankSetting()
         {
-            SpriteSettings spriteSettings = new SpriteSettings();
-            spriteSettings.DefaultMillisecondsPerFrame = 1;
-            spriteSettings.OriginalSpeed = 5;
-            spriteSettings.TextureImage = game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png");
-            spriteSettings.SheetSize = new Point(100, 100);
-            spriteSettings.FrameSize = new Point(5, 5);
-            spriteSettings.FirstFrame = new Point(11, 11);
-            //spriteSettings.StartPosition = new Vector2(50, 50);
-            spriteSettings.CollisionOffset = 1;
-            spriteSettings.CollisionCueName = "CollisionMissle";
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
+                new Point(11, 11), new Vector2(50, 50), 1, "CollisionMissle");
             return spriteSettings;
         }
     }
