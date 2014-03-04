@@ -17,14 +17,13 @@ namespace AnimatedSprites.GameSettings
 {
     static class Default
     {
-        public static SpriteSettings GetCustomSetting(int defaultMillisecondsPerFrame, int originalSpeed, Texture2D textureImage,
-            Point sheetSize, Point frameSize, Point firstFrame, Vector2 startPosition, int collisionOffset, string collisionCueName)
+        public static SpriteSettings GetCustomSetting(int defaultMillisecondsPerFrame, int originalSpeed, Texture2D textureImage
+            , Point frameSize, Point firstFrame, Vector2 startPosition, int collisionOffset, string collisionCueName)
         {
             SpriteSettings spriteSettings = new SpriteSettings();
             spriteSettings.DefaultMillisecondsPerFrame = defaultMillisecondsPerFrame;
             spriteSettings.OriginalSpeed = originalSpeed;
             spriteSettings.TextureImage = textureImage;
-            spriteSettings.SheetSize = sheetSize;
             spriteSettings.FrameSize = frameSize;
             spriteSettings.FirstFrame = firstFrame;
             spriteSettings.StartPosition = startPosition;
@@ -36,15 +35,22 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetMissleSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\sprites"), new Point(5, 5),
                 new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");
             return spriteSettings;
         }
 
 
-        public static SpriteSettings GetTankSetting(Game game)
+        public static SpriteSettings GetUserTankSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\NES - Battle City - General Sprites.png"), new Point(100, 100), new Point(5, 5),
+            SpriteSettings spriteSettings = Default.GetCustomSetting(16, 2, game.Content.Load<Texture2D>(@"Images\sprites"), new Point(13, 13),
+                new Point(1, 2), new Vector2(50, 50), 0, "CollisionMissle");
+            return spriteSettings;
+        }
+
+        public static SpriteSettings GetEnemyTankSetting(Game game)
+        {
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(@"Images\sprites"), new Point(12, 12),
                 new Point(11, 11), new Vector2(50, 50), 1, "CollisionMissle");
             return spriteSettings;
         }
