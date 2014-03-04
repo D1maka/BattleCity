@@ -89,7 +89,7 @@ namespace AnimatedSprites
 
 
                     // Удаляем объект, если он вне поля
-                    if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                    if (s.State == SpriteState.Destroyed)
                     {
                         spriteList.RemoveAt(i);
                         --i;
