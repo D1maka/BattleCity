@@ -40,6 +40,7 @@ namespace AnimatedSprites
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissleSetting(Game));
+            spriteList.Add(new Wall(Default.GetWallSetting(Game)));
             //TODO: Load the player sprite
             //throw new NotImplementedException();
             base.LoadContent();
