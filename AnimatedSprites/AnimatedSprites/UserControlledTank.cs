@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AnimatedSprites.GameSettings;
 using Microsoft.Xna.Framework.Input;
+using AnimatedSprites.Utils;
 
 namespace AnimatedSprites
 {
@@ -16,16 +17,32 @@ namespace AnimatedSprites
 
         public override Direction MoveDirection
         {
-            get 
+            get
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                    return Direction.Left;
-                if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                    return Direction.Right;
-                if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                    return Direction.Up;
+                {
+                    DrawDirection = Direction.Left;
+                    if (Collisions.IsAllowedDirection(this, Direction.Left, speedValue))
+                        return Direction.Left;
+                }
                 if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                    return Direction.Down;
+                {
+                    DrawDirection = Direction.Down;
+                    if (Collisions.IsAllowedDirection(this, Direction.Down, speedValue))
+                        return Direction.Down;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                {
+                    DrawDirection = Direction.Up;
+                    if (Collisions.IsAllowedDirection(this, Direction.Up, speedValue))
+                        return Direction.Up;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                {
+                    DrawDirection = Direction.Right;
+                    if (Collisions.IsAllowedDirection(this, Direction.Right, speedValue))
+                        return Direction.Right;
+                }
 
                 return Direction.None;
             }
