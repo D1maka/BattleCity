@@ -16,7 +16,7 @@ namespace AnimatedSprites
             fireDirection = direction;
         }
 
-        public override Direction Direction
+        public override Direction MoveDirection
         {
             get { return fireDirection; }
         }
@@ -27,24 +27,24 @@ namespace AnimatedSprites
             base.Update(gameTime, clientBounds);
         }
 
-        public override void GetCurrentFrame(Microsoft.Xna.Framework.Point currentFrame)
+        public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)
         {
-            if (Direction == Direction.Up)
+            if (DrawDirection == Direction.Up)
             {
                 currentFrame.X = 323;
                 currentFrame.Y = 102;
             }
-            else if (Direction == Direction.Left)
+            else if (DrawDirection == Direction.Left)
             {
                 currentFrame.X = 330;
                 currentFrame.Y = 102;
             }
-            else if (Direction == Direction.Down)
+            else if (DrawDirection == Direction.Down)
             {
                 currentFrame.X = 339;
                 currentFrame.Y = 102;
             }
-            else if (Direction == Direction.Right)
+            else if (DrawDirection == Direction.Right)
             {
                 currentFrame.X = 346;
                 currentFrame.Y = 102;

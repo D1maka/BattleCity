@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using AnimatedSprites.GameSettings;
 
 
 namespace AnimatedSprites
@@ -38,9 +39,9 @@ namespace AnimatedSprites
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-
+            player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissleSetting(Game));
             //TODO: Load the player sprite
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             base.LoadContent();
         }
 
@@ -66,15 +67,14 @@ namespace AnimatedSprites
 
         void UpdateSprites(GameTime gameTime)
         {
-            // Update all sprites
+            List<Sprite> spawnedSprites = new List<Sprite>();
             for (int i = 0; i < spriteList.Count; ++i)
             {
                 Sprite s = spriteList[i];
 
                 s.Update(gameTime, Game.Window.ClientBounds);
-
                 //TODO:Release collision logic
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
 
                 //// Check for collisions
                 //if (s.collisionRect.Intersects(player.collisionRect))
@@ -149,7 +149,7 @@ namespace AnimatedSprites
         //TODO:Realese Spawning
         private void SpawnEnemy()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public Vector2 GetPlayerPosition()
