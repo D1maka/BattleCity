@@ -24,6 +24,6 @@ namespace AnimatedSprites.GameSettings
         //Data for Collision Audio
         public string CollisionCueName { get; set; }
         //Scale(don`t use)
-        public const float Scale = 1;
+        public const float Scale = 2;
     }
 }

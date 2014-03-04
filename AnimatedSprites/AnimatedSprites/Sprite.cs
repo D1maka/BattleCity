@@ -72,6 +72,7 @@ namespace AnimatedSprites
             this.currentFrame = Settings.FirstFrame;
             this.speedValue = Settings.OriginalSpeed;
             this.collisionCueName = Settings.CollisionCueName;
+            this.position = Settings.StartPosition;
             this.millisecondsPerFrame = Settings.DefaultMillisecondsPerFrame;
         }
 
