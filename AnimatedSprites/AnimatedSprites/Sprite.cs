@@ -25,7 +25,7 @@ namespace AnimatedSprites
         int timeSinceLastFrame = 0;
         int millisecondsPerFrame;
         // Movement data
-        int speedValue;
+        protected int speedValue;
         protected Vector2 speed
         {
             get
@@ -69,6 +69,10 @@ namespace AnimatedSprites
                     _DrawDirection = MoveDirection;
 
                 return _DrawDirection;
+            }
+            set
+            {
+                _DrawDirection = value;
             }
         }
 

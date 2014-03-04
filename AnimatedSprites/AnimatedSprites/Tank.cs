@@ -23,10 +23,10 @@ namespace AnimatedSprites
         public Missile Fire()
         {
             if (CurrentMissle != null && CurrentMissle.State == SpriteState.Alive)
-            {
-                MissileSetting.StartPosition = GetMissileStartPosition();
-                CurrentMissle = new Missile(MissileSetting, MoveDirection);
-            }
+                return null;
+
+            MissileSetting.StartPosition = GetMissileStartPosition();
+            CurrentMissle = new Missile(MissileSetting, DrawDirection);
 
             return CurrentMissle;
         }

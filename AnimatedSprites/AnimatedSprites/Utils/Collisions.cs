@@ -13,9 +13,9 @@ namespace AnimatedSprites.Utils
         public static void ReleaseCollision(Sprite firstSprite, Sprite secondSprite)
         {
             if (firstSprite is Tank && secondSprite is Missile)
-                ReleaseCollision((Tank) firstSprite, (Missile) secondSprite);
+                ReleaseCollision((Tank)firstSprite, (Missile)secondSprite);
             if (secondSprite is Tank && firstSprite is Missile)
-                ReleaseCollision((Tank) secondSprite, (Missile) firstSprite);
+                ReleaseCollision((Tank)secondSprite, (Missile)firstSprite);
         }
 
         private static void ReleaseCollision(Tank tank, Missile missle)
@@ -27,8 +27,9 @@ namespace AnimatedSprites.Utils
             }
         }
 
-        public static bool IsAllowedDirection(Rectangle rect, Direction direction, int speed)
+        public static bool IsAllowedDirection(Sprite spr, Direction direction, int speed)
         {
+            Rectangle rect = spr.collisionRect;
             switch (direction)
             {
                 case Direction.Up: rect.Offset(0, -speed);
@@ -43,7 +44,7 @@ namespace AnimatedSprites.Utils
 
             foreach (Sprite w in Walls)
             {
-                if (rect.Intersects(w.collisionRect))
+                if (spr != w && rect.Intersects(w.collisionRect))
                     return false;
             }
 
