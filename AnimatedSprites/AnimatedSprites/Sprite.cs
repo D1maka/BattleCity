@@ -26,13 +26,13 @@ namespace AnimatedSprites
             {
                 Vector2 result = new Vector2();
 
-                if (Direction == Direction.Up)
+                if (MoveDirection == Direction.Down)
                     result.Y = speedValue;
-                else if (Direction == Direction.Left)
+                else if (MoveDirection == Direction.Left)
                     result.X = -speedValue;
-                else if (Direction == Direction.Down)
+                else if (MoveDirection == Direction.Up)
                     result.Y = -speedValue;
-                else if (Direction == Direction.Right)
+                else if (MoveDirection == Direction.Right)
                     result.X = speedValue;
 
                 return result;
@@ -48,9 +48,22 @@ namespace AnimatedSprites
         }
 
         // Abstract definition of direction property
-        public abstract Direction Direction
+        public abstract Direction MoveDirection
         {
             get;
+        }
+
+        // Abstract definition of direction property
+        private Direction _DrawDirection;
+        protected Direction DrawDirection
+        {
+            get
+            {
+                if (MoveDirection != Direction.None)
+                    _DrawDirection = MoveDirection;
+
+                return _DrawDirection;
+            }
         }
 
         public Sprite(SpriteSettings settings)
@@ -71,7 +84,7 @@ namespace AnimatedSprites
             {
                 // Increment to next frame
                 timeSinceLastFrame = 0;
-                GetCurrentFrame(currentFrame);
+                GetCurrentFrame(ref currentFrame);
             }
         }
 
@@ -80,14 +93,14 @@ namespace AnimatedSprites
             // Draw the sprite
             spriteBatch.Draw(Settings.TextureImage,
                 position,
-                new Rectangle(currentFrame.X * Settings.FrameSize.X,
-                    currentFrame.Y * Settings.FrameSize.Y,
+                new Rectangle(currentFrame.X,
+                    currentFrame.Y,
                     Settings.FrameSize.X, Settings.FrameSize.Y),
                 Color.White, 0, Vector2.Zero, SpriteSettings.Scale
                 , SpriteEffects.None, 0);
         }
 
-        public abstract void GetCurrentFrame(Point currentFrame);
+        public abstract void GetCurrentFrame(ref Point currentFrame);
 
         // Gets the collision rect based on position, framesize and collision offset
         public Rectangle collisionRect

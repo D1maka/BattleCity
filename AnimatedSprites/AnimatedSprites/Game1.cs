@@ -37,7 +37,7 @@ namespace AnimatedSprites
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             rnd = new Random();
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
         }
 
         protected override void Initialize()

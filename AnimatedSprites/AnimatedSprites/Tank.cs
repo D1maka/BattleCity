@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AnimatedSprites
 {
-    public enum Direction { Up, Left, Right, Down }
+    public enum Direction { Up, Left, Right, Down, None }
 
     abstract class Tank : Sprite
     {
@@ -19,7 +19,7 @@ namespace AnimatedSprites
 
         public Missile Fire()
         {
-            return new Missile(MissileSetting, Direction);
+            return new Missile(MissileSetting, MoveDirection);
         }
     }
 }

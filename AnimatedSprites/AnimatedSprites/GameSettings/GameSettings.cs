@@ -15,8 +15,6 @@ namespace AnimatedSprites.GameSettings
         public int OriginalSpeed { get; set; }
         //SpriteSheet Image
         public Texture2D TextureImage { get; set; }
-        //Sprite Sheet Size
-        public Point SheetSize { get; set; }
         //Sprite Image
         public Point FrameSize { get; set; }
         public Point FirstFrame { get; set; }

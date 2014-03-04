@@ -67,8 +67,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\NES - Battle City - General Sprites.png">
-      <Name>NES - Battle City - General Sprites</Name>
+    <Compile Include="Images\sprites.png">
+      <Name>sprites</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
