@@ -39,7 +39,7 @@ namespace AnimatedSprites
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissleSetting(Game));
+            player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
             spriteList.Add(new Wall(Default.GetWallSetting(Game)));
             //TODO: Load the player sprite
             //throw new NotImplementedException();

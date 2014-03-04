@@ -35,7 +35,7 @@ namespace AnimatedSprites.GameSettings
             return spriteSettings;
         }
 
-        public static SpriteSettings GetMissleSetting(Game game)
+        public static SpriteSettings GetMissileSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), new Point(5, 5),
                 new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");

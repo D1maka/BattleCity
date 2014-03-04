@@ -8,11 +8,17 @@ using AnimatedSprites.GameSettings;
 
 namespace AnimatedSprites
 {
+    public enum SpriteState
+    {
+        Alive,
+        Destroyed
+    }
+
     abstract class Sprite
     {
         //Original data
-        SpriteSettings Settings { get; set; }
-
+        protected SpriteSettings Settings { get; set; }
+        public SpriteState State { get; set; }
         // Stuff needed to draw the sprite
         Point currentFrame;
         // Framerate stuff
@@ -122,6 +128,11 @@ namespace AnimatedSprites
                 position.Y < (-Settings.FrameSize.Y) ||
                 position.X > bounds.Width ||
                 position.Y > bounds.Height);
+        }
+
+        public void destroy()
+        {
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace AnimatedSprites
     class Missile : Sprite
     {
 
-        Direction fireDirection { get; set; }
+        public Direction fireDirection { get; set; }
         public Missile(GameSettings.SpriteSettings setting, Direction direction)
             : base(setting)
         {
