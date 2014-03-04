@@ -60,7 +60,7 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetWallSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(16, 0, game.Content.Load<Texture2D>(textureImageFile), new Point(15, 15),
-                new Point(256, 0), new Vector2(200, 200), 0, "CollisionMissle");
+                new Point(256, 0), new Vector2(200, 200), 1, "CollisionMissle");
             return spriteSettings;
         }
     }
