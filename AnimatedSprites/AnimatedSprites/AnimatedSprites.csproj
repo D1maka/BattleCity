@@ -96,6 +96,7 @@
     <Compile Include="SpriteManager.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="UserControlledTank.cs" />
+    <Compile Include="Utils\Collisions.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>

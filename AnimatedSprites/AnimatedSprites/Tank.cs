@@ -12,7 +12,7 @@ namespace AnimatedSprites
     abstract class Tank : Sprite
     {
         GameSettings.SpriteSettings MissileSetting { get; set; }
-        Missile currentMissle { get; set; }
+        public Missile CurrentMissle { get; set; }
 
         public Tank(GameSettings.SpriteSettings tankSettings, GameSettings.SpriteSettings missileSetting)
             : base(tankSettings)
@@ -22,13 +22,13 @@ namespace AnimatedSprites
 
         public Missile Fire()
         {
-            if (currentMissle != null && currentMissle.State == SpriteState.Alive)
+            if (CurrentMissle != null && CurrentMissle.State == SpriteState.Alive)
             {
                 MissileSetting.StartPosition = GetMissileStartPosition();
-                currentMissle = new Missile(MissileSetting, MoveDirection);
+                CurrentMissle = new Missile(MissileSetting, MoveDirection);
             }
 
-            return currentMissle;
+            return CurrentMissle;
         }
 
         public Vector2 GetMissileStartPosition()
