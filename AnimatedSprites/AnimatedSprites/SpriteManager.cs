@@ -41,7 +41,9 @@ namespace AnimatedSprites
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
+            spriteList.Add(player);
             spriteList.Add(new Wall(Default.GetWallSetting(Game)));
+            Collisions.Walls = spriteList;
             //TODO: Load the player sprite
             //throw new NotImplementedException();
             base.LoadContent();
@@ -53,8 +55,8 @@ namespace AnimatedSprites
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // Update player
-            player.Update(gameTime, Game.Window.ClientBounds);
+            //// Update player
+            //player.Update(gameTime, Game.Window.ClientBounds);
             //Spawning
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             if (nextSpawnTime < 0)
@@ -69,9 +71,9 @@ namespace AnimatedSprites
 
         void UpdateSprites(GameTime gameTime)
         {
-            List<Sprite> spawnedSprites = new List<Sprite>();
             if (spriteList.Count > 0)
             {
+                List<Sprite> spawnedSprites = new List<Sprite>();
                 for (int i = 0; i < spriteList.Count; ++i)
                 {
                     Sprite s = spriteList[i];
@@ -80,14 +82,24 @@ namespace AnimatedSprites
 
                     if (spriteList.Count > i + 1)
                     {
-                        for (int j = i + 1; i < spriteList.Count; j++)
+                        for (int j = i + 1; j < spriteList.Count; j++)
                         {
                             if (s.collisionRect.Intersects(spriteList[j].collisionRect))
                                 Collisions.ReleaseCollision(s, spriteList[j]);
                         }
                     }
 
+                    if (s is Tank)
+                    {
+                        Missile m = (s as Tank).CurrentMissle;
+                        if (m != null && !spriteList.Contains(m) && !spawnedSprites.Contains(m))
+                            spawnedSprites.Add(m);
+                    }
 
+                    if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                    {
+                        s.State = SpriteState.Destroyed;
+                    }
                     // Удаляем объект, если он вне поля
                     if (s.State == SpriteState.Destroyed)
                     {
@@ -95,6 +107,8 @@ namespace AnimatedSprites
                         --i;
                     }
                 }
+
+                spriteList.AddRange(spawnedSprites);
             }
         }
 
@@ -102,10 +116,6 @@ namespace AnimatedSprites
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
 
-            // Draw the player
-            player.Draw(gameTime, spriteBatch);
-
-            // Draw all sprites
             foreach (Sprite s in spriteList)
                 s.Draw(gameTime, spriteBatch);
 

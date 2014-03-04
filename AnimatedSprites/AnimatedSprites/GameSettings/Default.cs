@@ -45,7 +45,7 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetUserTankSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(16, 2, game.Content.Load<Texture2D>(textureImageFile), new Point(13, 13),
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 2, game.Content.Load<Texture2D>(textureImageFile), new Point(13, 13),
                 new Point(1, 2), new Vector2(50, 50), 0, "CollisionMissle");
             return spriteSettings;
         }
@@ -59,7 +59,7 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetWallSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(16, 0, game.Content.Load<Texture2D>(textureImageFile), new Point(15, 15),
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), new Point(15, 15),
                 new Point(256, 0), new Vector2(200, 200), 1, "CollisionMissle");
             return spriteSettings;
         }
