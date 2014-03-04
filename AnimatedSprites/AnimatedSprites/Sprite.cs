@@ -130,9 +130,10 @@ namespace AnimatedSprites
                 position.Y > bounds.Height);
         }
 
-        public void destroy()
-        {
 
+        public void Destroy()
+        {
+            State = SpriteState.Destroyed;
         }
     }
 }

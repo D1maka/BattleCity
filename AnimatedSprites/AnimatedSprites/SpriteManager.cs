@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using AnimatedSprites.GameSettings;
+using AnimatedSprites.Utils;
 
 
 namespace AnimatedSprites
@@ -69,57 +70,30 @@ namespace AnimatedSprites
         void UpdateSprites(GameTime gameTime)
         {
             List<Sprite> spawnedSprites = new List<Sprite>();
-            for (int i = 0; i < spriteList.Count; ++i)
+            if (spriteList.Count > 0)
             {
-                Sprite s = spriteList[i];
-
-                s.Update(gameTime, Game.Window.ClientBounds);
-                //TODO:Release collision logic
-                //throw new NotImplementedException();
-
-                //// Check for collisions
-                //if (s.collisionRect.Intersects(player.collisionRect))
-                //{
-                //    // Play collision sound
-                //    if (s.collisionCueName != null)
-                //        ((Game1)Game).PlayCue(s.collisionCueName);
-                //    if (s is AutomatedSprite)
-                //    {
-                //        if (livesList.Count > 0)
-                //        {
-                //            livesList.RemoveAt(livesList.Count - 1);
-                //            --((Game1)Game).NumberLivesRemaining;
-                //        }
-                //    }
-                //    else if (s.collisionCueName == "pluscollision")
-                //    {
-                //        // Бонус при столкновении с плюсом
-                //        powerUpExpiration = 5000;
-                //        player.ModifyScale(2);
-                //    }
-                //    else if (s.collisionCueName == "skullcollision")
-                //    {
-                //        // Бонус при столкновении со скулболлом
-                //        stunExpiration = 2000;
-                //        player.ModifySpeed(0f);
-                //    }
-                //    else if (s.collisionCueName == "boltcollision")
-                //    {
-                //        // Бонус при столкновении с болтом
-                //        powerUpExpiration = 5000;
-                //        player.ModifySpeed(2);
-                //    }
-                //    // Remove collided sprite from the game
-                //    spriteList.RemoveAt(i);
-                //    --i;
-
-                //}
-
-                // Удаляем объект, если он вне поля
-                if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                for (int i = 0; i < spriteList.Count; ++i)
                 {
-                    spriteList.RemoveAt(i);
-                    --i;
+                    Sprite s = spriteList[i];
+
+                    s.Update(gameTime, Game.Window.ClientBounds);
+
+                    if (spriteList.Count > i + 1)
+                    {
+                        for (int j = i + 1; i < spriteList.Count; j++)
+                        {
+                            if (s.collisionRect.Intersects(spriteList[j].collisionRect))
+                                Collisions.ReleaseCollision(s, spriteList[j]);
+                        }
+                    }
+
+
+                    // Удаляем объект, если он вне поля
+                    if (s.State == SpriteState.Destroyed)
+                    {
+                        spriteList.RemoveAt(i);
+                        --i;
+                    }
                 }
             }
         }
