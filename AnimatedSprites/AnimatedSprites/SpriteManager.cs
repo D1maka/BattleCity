@@ -22,7 +22,6 @@ namespace AnimatedSprites
         int enemySpawnMinMilliseconds = 1000;
         int enemySpawnMaxMilliseconds = 2000;
         //A sprite for the player and a list of automated sprites
-        UserControlledTank player;
         List<Sprite> spriteList = new List<Sprite>();
 
 
@@ -41,8 +40,7 @@ namespace AnimatedSprites
         {
             RandomUtils.Game = Game;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
-            spriteList.Add(player);
+            spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
             SpriteSettings defmissile = Default.GetWallSetting(Game);
             for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(defmissile.FrameSize.X * SpriteSettings.Scale))
             {
@@ -81,9 +79,9 @@ namespace AnimatedSprites
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            //// Update player
-            //player.Update(gameTime, Game.Window.ClientBounds);
-            //Spawning
+            if (spriteList.Find(item => item is UserControlledTank) == null)
+                ((Game1)Game).EndGame();
+
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             if (nextSpawnTime < 0)
             {
@@ -161,11 +159,6 @@ namespace AnimatedSprites
         private void SpawnEnemy()
         {
             //throw new NotImplementedException();
-        }
-
-        public Vector2 GetPlayerPosition()
-        {
-            return player.GetPosition;
         }
     }
 }
