@@ -39,13 +39,14 @@ namespace AnimatedSprites
 
         protected override void LoadContent()
         {
+            RandomUtils.Game = Game;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
             spriteList.Add(player);
             SpriteSettings defmissile = Default.GetWallSetting(Game);
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += defmissile.FrameSize.X * 2)
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(defmissile.FrameSize.X * SpriteSettings.Scale))
             {
-                for (int j = 0; j < Game.Window.ClientBounds.Height; j += Game.Window.ClientBounds.Height - defmissile.FrameSize.Y * 2)
+                for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - defmissile.FrameSize.Y * SpriteSettings.Scale))
                 {
                     SpriteSettings s = Default.GetWallSetting(Game);
                     s.StartPosition = new Vector2(i, j);
@@ -53,22 +54,24 @@ namespace AnimatedSprites
                 }
             }
 
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += Game.Window.ClientBounds.Width - defmissile.FrameSize.X * 2)
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(Game.Window.ClientBounds.Width - defmissile.FrameSize.X * SpriteSettings.Scale))
             {
-                for (int j = defmissile.FrameSize.X; j < Game.Window.ClientBounds.Height; j += defmissile.FrameSize.X*2)
+                for (int j = defmissile.FrameSize.X; j < Game.Window.ClientBounds.Height; j += (int)(defmissile.FrameSize.X * SpriteSettings.Scale))
                 {
                     SpriteSettings s = Default.GetWallSetting(Game);
                     s.StartPosition = new Vector2(i, j);
                     spriteList.Add(new Wall(s));
                 }
             }
-            spriteList.Add(new AITank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
 
             SpriteSettings tank = Default.GetEnemyTankSetting(Game);
             tank.StartPosition = new Vector2(400, 200);
-            spriteList.Add(new AITank(tank, Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(tank, Default.GetMissileSetting(Game)));
 
+            //Configure Utils
             Collisions.Walls = spriteList;
+            
             base.LoadContent();
         }
 
