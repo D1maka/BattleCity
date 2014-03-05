@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AITank.cs" />
     <Compile Include="GameSettings\Default.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

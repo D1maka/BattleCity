@@ -126,15 +126,15 @@ namespace AnimatedSprites
                         spriteBatch.End();
                     break;
                 case GameState.InGame: 
-                    GraphicsDevice.Clear(Color.White);
+                    GraphicsDevice.Clear(Color.Black);
                     spriteBatch.Begin();
 
                     //background draw
-                    spriteBatch.Draw(backgroundTexture,
-                        new Rectangle(0, 0, Window.ClientBounds.Width,
-                        Window.ClientBounds.Height), null,
-                        Color.White, 0, Vector2.Zero,
-                        SpriteEffects.None, 0);
+                    //spriteBatch.Draw(backgroundTexture,
+                        //new Rectangle(0, 0, Window.ClientBounds.Width,
+                        //Window.ClientBounds.Height), null,
+                        //Color.White, 0, Vector2.Zero,
+                        //SpriteEffects.None, 0);
 
                     spriteBatch.End();
                     base.Draw(gameTime);

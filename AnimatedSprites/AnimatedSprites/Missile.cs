@@ -31,23 +31,23 @@ namespace AnimatedSprites
         {
             if (DrawDirection == Direction.Up)
             {
-                currentFrame.X = 323;
-                currentFrame.Y = 102;
+                currentFrame.X = 323 - 1;
+                currentFrame.Y = 102 - 1;
             }
             else if (DrawDirection == Direction.Left)
             {
-                currentFrame.X = 330;
-                currentFrame.Y = 102;
+                currentFrame.X = 330 - 1;
+                currentFrame.Y = 102 - 1;
             }
             else if (DrawDirection == Direction.Down)
             {
-                currentFrame.X = 339;
-                currentFrame.Y = 102;
+                currentFrame.X = 339 - 1;
+                currentFrame.Y = 102 - 1;
             }
             else if (DrawDirection == Direction.Right)
             {
-                currentFrame.X = 346;
-                currentFrame.Y = 102;
+                currentFrame.X = 346 - 1;
+                currentFrame.Y = 102 - 1;
             }
         }
     }
