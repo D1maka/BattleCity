@@ -38,29 +38,29 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetMissileSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), new Point(5, 5),
-                new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");
+                new Point(1, 1), new Vector2(50, 50), -1, "CollisionMissle");
             return spriteSettings;
         }
 
 
         public static SpriteSettings GetUserTankSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 2, game.Content.Load<Texture2D>(textureImageFile), new Point(13, 13),
-                new Point(1, 2), new Vector2(50, 50), 0, "CollisionMissle");
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), new Point(13, 13),
+                new Point(1, 2), new Vector2(50, 50), -1, "CollisionMissle");
             return spriteSettings;
         }
 
         public static SpriteSettings GetEnemyTankSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), new Point(12, 12),
-                new Point(11, 11), new Vector2(200, 200), 1, "CollisionMissle");
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), new Point(12, 12),
+                new Point(11, 11), new Vector2(200, 200), -1, "CollisionMissle");
             return spriteSettings;
         }
 
         public static SpriteSettings GetWallSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), new Point(15, 15),
-                new Point(256, 0), new Vector2(200, 200), 1, "CollisionMissle");
+                new Point(256, 0), new Vector2(200, 200), 0, "CollisionMissle");
             return spriteSettings;
         }
     }

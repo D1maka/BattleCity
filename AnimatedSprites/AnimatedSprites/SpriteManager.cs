@@ -39,6 +39,7 @@ namespace AnimatedSprites
 
         protected override void LoadContent()
         {
+            RandomUtils.Game = Game;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
             spriteList.Add(player);
@@ -62,13 +63,15 @@ namespace AnimatedSprites
                     spriteList.Add(new Wall(s));
                 }
             }
-            spriteList.Add(new AITank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
 
             SpriteSettings tank = Default.GetEnemyTankSetting(Game);
             tank.StartPosition = new Vector2(400, 200);
-            spriteList.Add(new AITank(tank, Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(tank, Default.GetMissileSetting(Game)));
 
+            //Configure Utils
             Collisions.Walls = spriteList;
+            
             base.LoadContent();
         }
 

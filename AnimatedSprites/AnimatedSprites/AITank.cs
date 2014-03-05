@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AnimatedSprites.GameSettings;
+using AnimatedSprites.Utils;
 
 namespace AnimatedSprites
 {
-    class AITank : Tank
+    abstract class AITank : Tank
     {
         public AITank(SpriteSettings settings, SpriteSettings missileSetting)
             : base(settings, missileSetting)
         {
         }
 
-        public override Direction MoveDirection
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
         {
-            get { return Direction.None; }
+            position += speed;
+            base.Update(gameTime, clientBounds);
         }
 
         public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)

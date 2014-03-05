@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AnimatedSprites.Utils
 {
-    class Collisions
+    static class Collisions
     {
         public static List<Sprite> Walls;
 
