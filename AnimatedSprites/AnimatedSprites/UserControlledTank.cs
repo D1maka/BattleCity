@@ -22,25 +22,25 @@ namespace AnimatedSprites
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
                     DrawDirection = Direction.Left;
-                    if (Collisions.IsAllowedDirection(this, Direction.Left, speedValue))
+                    if (AllowedDirections.Contains(Direction.Left))
                         return Direction.Left;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
                     DrawDirection = Direction.Down;
-                    if (Collisions.IsAllowedDirection(this, Direction.Down, speedValue))
+                    if (AllowedDirections.Contains(Direction.Down))
                         return Direction.Down;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
                     DrawDirection = Direction.Up;
-                    if (Collisions.IsAllowedDirection(this, Direction.Up, speedValue))
+                    if (AllowedDirections.Contains(Direction.Up))
                         return Direction.Up;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
                     DrawDirection = Direction.Right;
-                    if (Collisions.IsAllowedDirection(this, Direction.Right, speedValue))
+                    if (AllowedDirections.Contains(Direction.Right))
                         return Direction.Right;
                 }
 
@@ -50,11 +50,10 @@ namespace AnimatedSprites
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
         {
-            position += speed;
+            base.Update(gameTime, clientBounds);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 Fire();
-
-            base.Update(gameTime, clientBounds);
         }
 
         public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)

@@ -22,20 +22,21 @@ namespace AnimatedSprites
         {
             get
             {
-                if (_ChangeDirectionTime < 0 || !Collisions.IsAllowedDirection(this, _MoveDirection, speedValue))
+                if (_ChangeDirectionTime < 0 || !AllowedDirections.Contains(_MoveDirection))
                 {
                     _MoveDirection = RandomUtils.GetRandomDirection();
                     SetChangeDirectionTime();
                 }
+
                 return _MoveDirection;
             }
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
         {
+            base.Update(gameTime, clientBounds);
             _ChangeDirectionTime -= gameTime.ElapsedGameTime.Milliseconds;
             Fire();
-            base.Update(gameTime, clientBounds);
         }
 
 

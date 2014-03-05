@@ -71,7 +71,7 @@ namespace AnimatedSprites
 
             //Configure Utils
             Collisions.Walls = spriteList;
-            
+
             base.LoadContent();
         }
 
