@@ -12,7 +12,7 @@ namespace AnimatedSprites.Utils
 
         public static Direction GetRandomDirection()
         {
-            int direction = ((Game1)Game).rnd.Next(0, 5);
+            int direction = ((Game1)Game).rnd.Next(0, 4);
             return (Direction)direction;
         }
 

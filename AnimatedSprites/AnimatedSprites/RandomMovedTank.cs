@@ -12,8 +12,8 @@ namespace AnimatedSprites
         public RandomMovedTank(SpriteSettings settings, SpriteSettings missileSetting)
             : base(settings, missileSetting)
         {
-            _ChangeDirectionTimeMax = 10000;
-            _ChangeDirectionTimeMin = 5000;
+            _ChangeDirectionTimeMax = 5000;
+            _ChangeDirectionTimeMin = 1000;
         }
 
 

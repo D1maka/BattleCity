@@ -33,15 +33,11 @@ namespace AnimatedSprites
                     currentFrame.Y = 1;
                     break;
                 case Direction.Right:
-                    currentFrame.X = 193;
-                    currentFrame.Y = 1;
+                    currentFrame.X = 225;
+                    currentFrame.Y = 2;
                     break;
                 case Direction.Down:
-                    currentFrame.X = 225;
-                    currentFrame.Y = 1;
-                    break;
-                case Direction.None:
-                    currentFrame.X = 225;//TODO:DELETE
+                    currentFrame.X = 193;
                     currentFrame.Y = 1;
                     break;
                 default:
