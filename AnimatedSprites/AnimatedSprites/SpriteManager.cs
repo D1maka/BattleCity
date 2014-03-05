@@ -42,10 +42,33 @@ namespace AnimatedSprites
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
             spriteList.Add(player);
-            spriteList.Add(new Wall(Default.GetWallSetting(Game)));
+            SpriteSettings defmissile = Default.GetWallSetting(Game);
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += defmissile.FrameSize.X * 2)
+            {
+                for (int j = 0; j < Game.Window.ClientBounds.Height; j += Game.Window.ClientBounds.Height - defmissile.FrameSize.Y * 2)
+                {
+                    SpriteSettings s = Default.GetWallSetting(Game);
+                    s.StartPosition = new Vector2(i, j);
+                    spriteList.Add(new Wall(s));
+                }
+            }
+
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += Game.Window.ClientBounds.Width - defmissile.FrameSize.X * 2)
+            {
+                for (int j = defmissile.FrameSize.X; j < Game.Window.ClientBounds.Height; j += defmissile.FrameSize.X*2)
+                {
+                    SpriteSettings s = Default.GetWallSetting(Game);
+                    s.StartPosition = new Vector2(i, j);
+                    spriteList.Add(new Wall(s));
+                }
+            }
+            spriteList.Add(new AITank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
+
+            SpriteSettings tank = Default.GetEnemyTankSetting(Game);
+            tank.StartPosition = new Vector2(400, 200);
+            spriteList.Add(new AITank(tank, Default.GetMissileSetting(Game)));
+
             Collisions.Walls = spriteList;
-            //TODO: Load the player sprite
-            //throw new NotImplementedException();
             base.LoadContent();
         }
 
@@ -92,7 +115,7 @@ namespace AnimatedSprites
                     if (s is Tank)
                     {
                         Missile m = (s as Tank).CurrentMissle;
-                        if (m != null && !spriteList.Contains(m) && !spawnedSprites.Contains(m))
+                        if (m != null && m.State == SpriteState.Alive && !spriteList.Contains(m) && !spawnedSprites.Contains(m))
                             spawnedSprites.Add(m);
                     }
 
