@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AnimatedSprites.GameSettings;
 
 
 namespace AnimatedSprites
@@ -39,20 +40,20 @@ namespace AnimatedSprites
             switch (dir)
             {
                 case Direction.Up:
-                    missileStartPosition.X = position.X + Settings.FrameSize.X / 2 - MissileSetting.FrameSize.X / 2;
-                    missileStartPosition.Y = position.Y - MissileSetting.FrameSize.Y;
+                    missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.X * SpriteSettings.Scale / 2;
+                    missileStartPosition.Y = position.Y - MissileSetting.FrameSize.Y * SpriteSettings.Scale;
                     break;
                 case Direction.Left:
-                    missileStartPosition.X = position.X - MissileSetting.FrameSize.X;
-                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y / 2 - MissileSetting.FrameSize.Y / 2;
+                    missileStartPosition.X = position.X - MissileSetting.FrameSize.X * SpriteSettings.Scale;
+                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.Y * SpriteSettings.Scale / 2;
                     break;
                 case Direction.Right:
-                    missileStartPosition.X = position.X + Settings.FrameSize.X;
-                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y / 2 - MissileSetting.FrameSize.Y / 2;
+                    missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale;
+                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.Y * SpriteSettings.Scale / 2;
                     break;
                 case Direction.Down:
-                    missileStartPosition.X = position.X + Settings.FrameSize.X / 2 - MissileSetting.FrameSize.X / 2;
-                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y;
+                    missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.X * SpriteSettings.Scale / 2;
+                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale;
                     break;
                 case Direction.None:
                     break;
