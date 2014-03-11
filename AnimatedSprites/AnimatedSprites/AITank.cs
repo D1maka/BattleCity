@@ -24,10 +24,10 @@ namespace AnimatedSprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Settings.TextureImage, LeftRectangle, Color.White);
-            spriteBatch.Draw(Settings.TextureImage, RightRectangle, Color.White);
-            spriteBatch.Draw(Settings.TextureImage, UpRectangle, Color.White);
-            spriteBatch.Draw(Settings.TextureImage, DownRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, LeftRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, RightRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, UpRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, DownRectangle, Color.White);
             base.Draw(gameTime, spriteBatch);
         }
 

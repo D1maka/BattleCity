@@ -14,8 +14,16 @@ namespace AnimatedSprites.Utils
         {
             if (firstSprite is Tank && secondSprite is Missile)
                 ReleaseCollision((Tank)firstSprite, (Missile)secondSprite);
-            if (secondSprite is Tank && firstSprite is Missile)
+            else if (secondSprite is Tank && firstSprite is Missile)
                 ReleaseCollision((Tank)secondSprite, (Missile)firstSprite);
+            else if (firstSprite is Tank && secondSprite is Tank || secondSprite is Wall && firstSprite is Wall)
+            {
+            }
+            else
+            {
+                firstSprite.Destroy();
+                secondSprite.Destroy();
+            }
         }
 
         private static void ReleaseCollision(Tank tank, Missile missle)

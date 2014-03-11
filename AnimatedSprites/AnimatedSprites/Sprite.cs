@@ -135,7 +135,7 @@ namespace AnimatedSprites
         }
 
 
-        public void Destroy()
+        public virtual void Destroy()
         {
             State = SpriteState.Destroyed;
         }

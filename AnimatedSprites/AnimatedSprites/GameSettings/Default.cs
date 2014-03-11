@@ -45,23 +45,39 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetUserTankSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), new Point(13, 13),
-                new Point(1, 2), new Vector2(50, 50), -1, "CollisionMissle");
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
+                new Point(1, 2), new Vector2(400, 400), -1, "CollisionMissle");
             return spriteSettings;
         }
 
-        public static SpriteSettings GetEnemyTankSetting(Game game)
+        public static SpriteSettings GetEnemyTankSetting(Game game, Vector2 startPosition)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), new Point(12, 12),
-                new Point(11, 11), new Vector2(200, 200), -1, "CollisionMissle");
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
+                new Point(11, 11), startPosition, -1, "CollisionMissle");
             return spriteSettings;
         }
 
-        public static SpriteSettings GetWallSetting(Game game)
+        public static SpriteSettings GetWallSetting(Game game, Vector2 startPosition)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), new Point(15, 15),
-                new Point(256, 0), new Vector2(200, 200), 0, "CollisionMissle");
-            return spriteSettings;
+            return Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), WallSetting.FrameSize,
+                new Point(256, 0), startPosition, 0, "CollisionMissle");
+        }
+
+        public static List<Vector2> GetWallPosition()
+        {
+            List<Vector2> walls = new List<Vector2>();
+
+            walls.Add(new Vector2(100, 100));
+            return walls;
+        }
+
+        public class TankSetting
+        {
+            public static readonly Point FrameSize = new Point(13, 13);
+        }
+        public class WallSetting
+        {
+            public static readonly Point FrameSize = new Point(15, 15);
         }
     }
 }

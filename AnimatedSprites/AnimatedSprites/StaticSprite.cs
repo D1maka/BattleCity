@@ -6,17 +6,16 @@ using AnimatedSprites.GameSettings;
 
 namespace AnimatedSprites
 {
-    class Wall : StaticSprite
+    abstract class StaticSprite : Sprite
     {
-        public Wall(SpriteSettings setting)
+        public StaticSprite(SpriteSettings setting)
             : base(setting)
         {
         }
 
-        public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)
+        public override Direction MoveDirection
         {
-            currentFrame.X = 256;
-            currentFrame.Y = 0;
+            get { return Direction.Up; }
         }
     }
 }

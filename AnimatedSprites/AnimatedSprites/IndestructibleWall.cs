@@ -6,9 +6,9 @@ using AnimatedSprites.GameSettings;
 
 namespace AnimatedSprites
 {
-    class Wall : StaticSprite
+    class IndestructibleWall : StaticSprite
     {
-        public Wall(SpriteSettings setting)
+        public IndestructibleWall(SpriteSettings setting)
             : base(setting)
         {
         }
@@ -16,7 +16,11 @@ namespace AnimatedSprites
         public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)
         {
             currentFrame.X = 256;
-            currentFrame.Y = 0;
+            currentFrame.Y = 16;
+        }
+
+        public override void Destroy()
+        {
         }
     }
 }
