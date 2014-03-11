@@ -29,8 +29,26 @@ namespace AnimatedSprites
         //background
         Texture2D backgroundTexture;
         //Game status staff
+        public void EndGame()
+        {
+            currentGameState = GameState.GameOver;
+        }
+
         enum GameState { Start, InGame, GameOver };
-        GameState currentGameState = GameState.Start;
+        GameState _currentGameState = GameState.Start;
+        GameState currentGameState
+        {
+            get { return _currentGameState; }
+            set
+            {
+                if (value == GameState.GameOver)
+                {
+                    spriteManager.Enabled = false;
+                    spriteManager.Visible = false;
+                }
+                _currentGameState = value;
+            }
+        }
 
         public Game1()
         {
@@ -107,7 +125,7 @@ namespace AnimatedSprites
 
                         // Вывод в заставке текста
                         spriteBatch.Begin();
-                        string text = "Avoid blades or die!";
+                        string text = "Kill tanks!";
                         spriteBatch.DrawString(scoreFont, text,
                             new Vector2((Window.ClientBounds.Width / 2)
                             - (scoreFont.MeasureString(text).X / 2),
@@ -127,22 +145,12 @@ namespace AnimatedSprites
                     break;
                 case GameState.InGame: 
                     GraphicsDevice.Clear(Color.Black);
-                    spriteBatch.Begin();
-
-                    //background draw
-                    //spriteBatch.Draw(backgroundTexture,
-                        //new Rectangle(0, 0, Window.ClientBounds.Width,
-                        //Window.ClientBounds.Height), null,
-                        //Color.White, 0, Vector2.Zero,
-                        //SpriteEffects.None, 0);
-
-                    spriteBatch.End();
                     base.Draw(gameTime);
                     break;
                 case GameState.GameOver:
                     GraphicsDevice.Clear(Color.AliceBlue);
                     spriteBatch.Begin();
-                    string textEnd = "Game Over! The blades win again!\nPress ENTER to exit";
+                    string textEnd = "Game Over! AI Win!\nPress ENTER to exit";
                     spriteBatch.DrawString(scoreFont, textEnd,
                         new Vector2((Window.ClientBounds.Width / 2)
                         - (scoreFont.MeasureString(textEnd).X / 2),

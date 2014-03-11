@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AnimatedSprites.GameSettings;
+using AnimatedSprites.Utils;
 
 
 namespace AnimatedSprites
@@ -30,6 +31,13 @@ namespace AnimatedSprites
             CurrentMissle = new Missile(MissileSetting, DrawDirection);
 
             return CurrentMissle;
+        }
+
+        public override void Update(GameTime gameTime, Rectangle clientBounds)
+        {
+            AllowedDirections = Collisions.GetAllowedDirections(this, speedValue);
+            position += speed;
+            base.Update(gameTime, clientBounds);
         }
 
         public Vector2 GetMissileStartPosition()
@@ -63,5 +71,7 @@ namespace AnimatedSprites
 
             return missileStartPosition;
         }
+
+        protected List<Direction> AllowedDirections { get; set; }
     }
 }

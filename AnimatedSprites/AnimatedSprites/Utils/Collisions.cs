@@ -14,8 +14,16 @@ namespace AnimatedSprites.Utils
         {
             if (firstSprite is Tank && secondSprite is Missile)
                 ReleaseCollision((Tank)firstSprite, (Missile)secondSprite);
-            if (secondSprite is Tank && firstSprite is Missile)
+            else if (secondSprite is Tank && firstSprite is Missile)
                 ReleaseCollision((Tank)secondSprite, (Missile)firstSprite);
+            else if (firstSprite is Tank && secondSprite is Tank || secondSprite is Wall && firstSprite is Wall)
+            {
+            }
+            else
+            {
+                firstSprite.Destroy();
+                secondSprite.Destroy();
+            }
         }
 
         private static void ReleaseCollision(Tank tank, Missile missle)
@@ -51,5 +59,58 @@ namespace AnimatedSprites.Utils
             return true;
         }
 
+        public static List<Direction> GetAllowedDirections(Sprite spr, int speed)
+        {
+            Rectangle leftRect = spr.collisionRect;
+            Rectangle upRect = spr.collisionRect;
+            Rectangle downRect = spr.collisionRect;
+            Rectangle rightRect = spr.collisionRect;
+            upRect.Offset(0, -speed);
+            downRect.Offset(0, speed);
+            rightRect.Offset(speed, 0);
+            leftRect.Offset(-speed, 0);
+
+            List<Direction> direcs = new List<Direction>();
+            direcs.Add(Direction.Down);
+            direcs.Add(Direction.Left);
+            direcs.Add(Direction.Right);
+            direcs.Add(Direction.Up);
+            foreach (Sprite w in Walls)
+            {
+                if (direcs.Contains(Direction.Up) && spr != w && upRect.Intersects(w.collisionRect))
+                    direcs.Remove(Direction.Up);
+                if (direcs.Contains(Direction.Right) && spr != w && rightRect.Intersects(w.collisionRect))
+                    direcs.Remove(Direction.Right);
+                if (direcs.Contains(Direction.Left) && spr != w && leftRect.Intersects(w.collisionRect))
+                    direcs.Remove(Direction.Left);
+                if (direcs.Contains(Direction.Down) && spr != w && downRect.Intersects(w.collisionRect))
+                    direcs.Remove(Direction.Down);
+            }
+
+            return direcs;
+        }
+
+        public static Direction GetUserVisibleDirection(AITank tank, List<Direction> allowedDirections)
+        {
+            if (Walls != null)
+            {
+                foreach (var item in Walls)
+                {
+                    if (!(item is UserControlledTank))
+                        continue;
+
+                    if (allowedDirections.Contains(Direction.Left) && tank.LeftRectangle.Intersects(item.collisionRect))
+                        return Direction.Left;
+                    else if (allowedDirections.Contains(Direction.Right) && tank.RightRectangle.Intersects(item.collisionRect))
+                        return Direction.Right;
+                    else if (allowedDirections.Contains(Direction.Up) && tank.UpRectangle.Intersects(item.collisionRect))
+                        return Direction.Up;
+                    else if (allowedDirections.Contains(Direction.Down) && tank.DownRectangle.Intersects(item.collisionRect))
+                        return Direction.Down;
+                }
+            }
+
+            return Direction.None;
+        }
     }
 }

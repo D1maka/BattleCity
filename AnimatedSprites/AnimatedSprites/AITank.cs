@@ -4,20 +4,31 @@ using System.Linq;
 using System.Text;
 using AnimatedSprites.GameSettings;
 using AnimatedSprites.Utils;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace AnimatedSprites
 {
     abstract class AITank : Tank
     {
+        const int VissionRectangleLength = 1000;
         public AITank(SpriteSettings settings, SpriteSettings missileSetting)
             : base(settings, missileSetting)
         {
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
+        public Rectangle LeftRectangle { get { return new Rectangle((int)position.X - VissionRectangleLength, (int)position.Y, VissionRectangleLength, Settings.FrameSize.Y * (int)SpriteSettings.Scale); } }
+        public Rectangle RightRectangle { get { return new Rectangle((int)(position.X + Settings.FrameSize.X * SpriteSettings.Scale), (int)position.Y, VissionRectangleLength, Settings.FrameSize.Y * (int)SpriteSettings.Scale); } }
+        public Rectangle DownRectangle { get { return new Rectangle((int)position.X, (int)position.Y + Settings.FrameSize.Y * (int)SpriteSettings.Scale, Settings.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
+        public Rectangle UpRectangle { get { return new Rectangle((int)position.X, (int)position.Y - VissionRectangleLength, Settings.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            position += speed;
-            base.Update(gameTime, clientBounds);
+            //spriteBatch.Draw(Settings.TextureImage, LeftRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, RightRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, UpRectangle, Color.White);
+            //spriteBatch.Draw(Settings.TextureImage, DownRectangle, Color.White);
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)

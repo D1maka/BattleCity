@@ -22,9 +22,10 @@ namespace AnimatedSprites
         int enemySpawnMinMilliseconds = 1000;
         int enemySpawnMaxMilliseconds = 2000;
         //A sprite for the player and a list of automated sprites
-        UserControlledTank player;
         List<Sprite> spriteList = new List<Sprite>();
-
+        Vector2 MiddleEnemyPosition { get; set; }
+        Vector2 LeftEnemyPosition { get; set; }
+        Vector2 RightEnemyPosition { get; set; }
 
         public SpriteManager(Game game)
             : base(game)
@@ -34,44 +35,39 @@ namespace AnimatedSprites
         public override void Initialize()
         {
             ResetSpawnTime();
+            LeftEnemyPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
+            RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale - 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
+            MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2 + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
+            RandomUtils.Game = Game;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            RandomUtils.Game = Game;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            player = new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game));
-            spriteList.Add(player);
-            SpriteSettings defmissile = Default.GetWallSetting(Game);
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(defmissile.FrameSize.X * SpriteSettings.Scale))
+            spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
             {
-                for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - defmissile.FrameSize.Y * SpriteSettings.Scale))
-                {
-                    SpriteSettings s = Default.GetWallSetting(Game);
-                    s.StartPosition = new Vector2(i, j);
-                    spriteList.Add(new Wall(s));
-                }
+                for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale))
+                    spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(i, j))));
             }
 
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(Game.Window.ClientBounds.Width - defmissile.FrameSize.X * SpriteSettings.Scale))
+            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
             {
-                for (int j = defmissile.FrameSize.X; j < Game.Window.ClientBounds.Height; j += (int)(defmissile.FrameSize.X * SpriteSettings.Scale))
-                {
-                    SpriteSettings s = Default.GetWallSetting(Game);
-                    s.StartPosition = new Vector2(i, j);
-                    spriteList.Add(new Wall(s));
-                }
+                for (int j = AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X; j < Game.Window.ClientBounds.Height; j += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
+                    spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(i, j))));
             }
-            spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game), Default.GetMissileSetting(Game)));
 
-            SpriteSettings tank = Default.GetEnemyTankSetting(Game);
-            tank.StartPosition = new Vector2(400, 200);
-            spriteList.Add(new RandomMovedTank(tank, Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game, LeftEnemyPosition), Default.GetMissileSetting(Game)));
+            spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game, RightEnemyPosition), Default.GetMissileSetting(Game)));
+
+            List<Vector2> walls = Default.GetWallPosition();
+            foreach (Vector2 pos in walls)
+                spriteList.Add(new Wall(Default.GetWallSetting(Game,pos)));
 
             //Configure Utils
             Collisions.Walls = spriteList;
-            
+
             base.LoadContent();
         }
 
@@ -81,9 +77,9 @@ namespace AnimatedSprites
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            //// Update player
-            //player.Update(gameTime, Game.Window.ClientBounds);
-            //Spawning
+            if (spriteList.Find(item => item is UserControlledTank) == null)
+                ((Game1)Game).EndGame();
+
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             if (nextSpawnTime < 0)
             {
@@ -161,11 +157,6 @@ namespace AnimatedSprites
         private void SpawnEnemy()
         {
             //throw new NotImplementedException();
-        }
-
-        public Vector2 GetPlayerPosition()
-        {
-            return player.GetPosition;
         }
     }
 }
