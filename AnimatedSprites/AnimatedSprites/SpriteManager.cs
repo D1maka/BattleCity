@@ -46,9 +46,9 @@ namespace AnimatedSprites
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
-            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 - 15 * SpriteSettings.Scale, 400))));
-            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 + 15 * SpriteSettings.Scale, 400))));
-            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400, 400 - 15 * SpriteSettings.Scale))));
+            //spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 - 15 * SpriteSettings.Scale, 400))));
+            //spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 + 15 * SpriteSettings.Scale, 400))));
+            //spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400, 400 - 15 * SpriteSettings.Scale))));
             for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
             {
                 for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale))
