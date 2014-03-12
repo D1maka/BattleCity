@@ -46,6 +46,9 @@ namespace AnimatedSprites
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
+            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 - 15 * SpriteSettings.Scale, 400))));
+            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400 + 15 * SpriteSettings.Scale, 400))));
+            spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(400, 400 - 15 * SpriteSettings.Scale))));
             for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
             {
                 for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale))
@@ -63,7 +66,7 @@ namespace AnimatedSprites
 
             List<Vector2> walls = Default.GetWallPosition();
             foreach (Vector2 pos in walls)
-                spriteList.Add(new Wall(Default.GetWallSetting(Game,pos)));
+                spriteList.Add(new Wall(Default.GetWallSetting(Game, pos)));
 
             //Configure Utils
             Collisions.Walls = spriteList;
@@ -78,7 +81,9 @@ namespace AnimatedSprites
         public override void Update(GameTime gameTime)
         {
             if (spriteList.Find(item => item is UserControlledTank) == null)
+            {
                 ((Game1)Game).EndGame();
+            }
 
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             if (nextSpawnTime < 0)
@@ -106,7 +111,9 @@ namespace AnimatedSprites
                     {
                         for (int j = i + 1; j < spriteList.Count; j++)
                         {
-                            if (s.collisionRect.Intersects(spriteList[j].collisionRect))
+                            if (spriteList[j].State == SpriteState.Alive && 
+                                s.State == SpriteState.Alive &&
+                                s.collisionRect.Intersects(spriteList[j].collisionRect))
                                 Collisions.ReleaseCollision(s, spriteList[j]);
                         }
                     }
@@ -118,7 +125,7 @@ namespace AnimatedSprites
                             spawnedSprites.Add(m);
                     }
 
-                    if (s.IsOutOfBounds(Game.Window.ClientBounds))
+                    if (Game.Window.ClientBounds.X > 0 && s.IsOutOfBounds(Game.Window.ClientBounds))
                     {
                         s.State = SpriteState.Destroyed;
                     }

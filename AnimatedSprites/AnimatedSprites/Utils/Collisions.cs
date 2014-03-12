@@ -16,7 +16,8 @@ namespace AnimatedSprites.Utils
                 ReleaseCollision((Tank)firstSprite, (Missile)secondSprite);
             else if (secondSprite is Tank && firstSprite is Missile)
                 ReleaseCollision((Tank)secondSprite, (Missile)firstSprite);
-            else if (firstSprite is Tank && secondSprite is Tank || secondSprite is Wall && firstSprite is Wall)
+            else if (firstSprite is Tank && secondSprite is Tank || secondSprite is StaticSprite && firstSprite is StaticSprite
+                || firstSprite is Tank && secondSprite is StaticSprite || firstSprite is StaticSprite && secondSprite is Tank)
             {
             }
             else
@@ -77,6 +78,8 @@ namespace AnimatedSprites.Utils
             direcs.Add(Direction.Up);
             foreach (Sprite w in Walls)
             {
+                if (w is Missile)
+                    continue;
                 if (direcs.Contains(Direction.Up) && spr != w && upRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Up);
                 if (direcs.Contains(Direction.Right) && spr != w && rightRect.Intersects(w.collisionRect))

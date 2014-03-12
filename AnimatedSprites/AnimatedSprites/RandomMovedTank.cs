@@ -13,7 +13,7 @@ namespace AnimatedSprites
             : base(settings, missileSetting)
         {
             _ChangeDirectionTimeMax = 5000;
-            _ChangeDirectionTimeMin = 1000;
+            _ChangeDirectionTimeMin = 100;
         }
 
 

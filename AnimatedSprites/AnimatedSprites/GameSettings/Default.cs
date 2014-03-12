@@ -67,7 +67,13 @@ namespace AnimatedSprites.GameSettings
         {
             List<Vector2> walls = new List<Vector2>();
 
-            walls.Add(new Vector2(100, 100));
+            walls.Add(new Vector2(700, 300));
+            walls.Add(new Vector2(600, 300));
+            walls.Add(new Vector2(500, 300));
+            walls.Add(new Vector2(400, 300));
+            walls.Add(new Vector2(300, 300));
+            walls.Add(new Vector2(200, 300));
+            walls.Add(new Vector2(100, 300));
             return walls;
         }
 
