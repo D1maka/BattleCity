@@ -24,7 +24,10 @@ namespace AnimatedSprites
             {
                 if (_ChangeDirectionTime < 0 || !AllowedDirections.Contains(_MoveDirection))
                 {
-                    _MoveDirection = RandomUtils.GetRandomDirection();
+                    do
+                    {
+                        _MoveDirection = RandomUtils.GetRandomDirection();
+                    } while (!AllowedDirections.Contains(_MoveDirection));
                     SetChangeDirectionTime();
                 }
 
