@@ -66,7 +66,7 @@ namespace AnimatedSprites.GameSettings
         public static List<Vector2> GetWallPosition()
         {
             List<Vector2> walls = new List<Vector2>();
-            const int N = 13, M = 23;
+            const int N = 14, M = 23;
 
             int[,] map = new int[N, M]   {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                           {0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
@@ -80,6 +80,7 @@ namespace AnimatedSprites.GameSettings
                                           {0,0,0,1,0,1,1,0,0,1,1,1,1,0,0,1,0,1,1,1,0,0,0},
                                           {0,0,0,1,0,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,0,0,0},
                                           {0,0,0,1,0,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,0,0,0},
+                                          {0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                           {0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
             for (int i = 0; i < N; i++)
             {
@@ -87,7 +88,7 @@ namespace AnimatedSprites.GameSettings
                 {
                     if (map[i, j] == 1)
                     {
-                        walls.Add(new Vector2(WallSetting.FrameSize.X * SpriteSettings.Scale + j * WallSetting.FrameSize.X * 
+                        walls.Add(new Vector2(WallSetting.FrameSize.X * SpriteSettings.Scale + j * WallSetting.FrameSize.X *
                         SpriteSettings.Scale, WallSetting.FrameSize.Y * SpriteSettings.Scale + i * WallSetting.FrameSize.Y * SpriteSettings.Scale));
                     }
                 }
