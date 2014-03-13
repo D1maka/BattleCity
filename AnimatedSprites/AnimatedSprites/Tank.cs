@@ -15,7 +15,7 @@ namespace AnimatedSprites
     {
         GameSettings.SpriteSettings MissileSetting { get; set; }
         public Missile CurrentMissle { get; set; }
-
+        private int GCD { get; set; }
         public Tank(GameSettings.SpriteSettings tankSettings, GameSettings.SpriteSettings missileSetting)
             : base(tankSettings)
         {
@@ -24,9 +24,10 @@ namespace AnimatedSprites
 
         public Missile Fire()
         {
-            if (CurrentMissle != null && CurrentMissle.State == SpriteState.Alive)
+            if (CurrentMissle != null && CurrentMissle.State == SpriteState.Alive || GCD > 0)
                 return null;
 
+            GCD = Default.TankSetting.FireGCD;
             MissileSetting.StartPosition = GetMissileStartPosition();
             CurrentMissle = new Missile(MissileSetting, DrawDirection);
 
@@ -35,6 +36,9 @@ namespace AnimatedSprites
 
         public override void Update(GameTime gameTime, Rectangle clientBounds)
         {
+            if (GCD >= 0)
+                GCD -= gameTime.ElapsedGameTime.Milliseconds;
+
             AllowedDirections = Collisions.GetAllowedDirections(this, speedValue);
             position += speed;
             base.Update(gameTime, clientBounds);

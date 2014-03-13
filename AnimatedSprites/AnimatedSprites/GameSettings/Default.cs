@@ -99,6 +99,7 @@ namespace AnimatedSprites.GameSettings
         public class TankSetting
         {
             public static readonly Point FrameSize = new Point(13, 13);
+            public const int FireGCD = 500;
         }
         public class WallSetting
         {
