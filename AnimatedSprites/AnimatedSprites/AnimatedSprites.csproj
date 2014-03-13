@@ -101,6 +101,7 @@
     <Compile Include="StaticSprite.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="UserControlledTank.cs" />
+    <Compile Include="Utils\AIUtils.cs" />
     <Compile Include="Utils\Collisions.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Wall.cs" />
