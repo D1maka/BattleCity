@@ -116,7 +116,7 @@ namespace AnimatedSprites.Utils
             return Direction.None;
         }
 
-        public static Vector2 GetUserPosition()
+        public static Vector2 GetUserPosition(Vector2 aiPosition)
         {
             //TODO: Get Closest UserTank position
             throw new NotImplementedException();

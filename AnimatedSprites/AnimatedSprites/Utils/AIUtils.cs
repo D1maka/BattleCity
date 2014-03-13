@@ -8,7 +8,12 @@ namespace AnimatedSprites.Utils
 {
     public static class AIUtils
     {
-        public static Direction GetDirection(Vector2 difference)
+        public static Direction GetMinDirection(Vector2 difference)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Direction GetMaxDirection(Vector2 difference)
         {
             throw new NotImplementedException();
         }
