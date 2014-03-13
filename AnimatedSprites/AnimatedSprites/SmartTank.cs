@@ -24,7 +24,13 @@ namespace AnimatedSprites
                 UserVisibleDirection = d;
                 if (d == Direction.None)
                 {
-                    
+                    //TODO Get UserPosition  and determine the max difference axis
+                    //between AITank(this.position) and UserTank
+
+                    //if current missile == nul and CurrentMissile.State = alive
+                    //return Direction to minimize max difference(Direction from AIUtils)
+
+                    //else return direction another direction
                 }
 
                 return d;
@@ -33,10 +39,9 @@ namespace AnimatedSprites
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
         {
-
-            if (UserVisibleDirection == DrawDirection)
-                Fire();
             base.Update(gameTime, clientBounds);
+            if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
+                Fire();
         }
     }
 }

@@ -115,5 +115,11 @@ namespace AnimatedSprites.Utils
 
             return Direction.None;
         }
+
+        public static Vector2 GetUserPosition()
+        {
+            //TODO: Get Closest UserTank position
+            throw new NotImplementedException();
+        }
     }
 }

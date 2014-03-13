@@ -38,7 +38,7 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetMissileSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), new Point(4, 4),
-                new Point(1, 1), new Vector2(50, 50), 1, "CollisionMissle");
+                new Point(1, 1), new Vector2(50, 50), 0, "CollisionMissle");
             return spriteSettings;
         }
 
@@ -46,14 +46,14 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetUserTankSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
-                new Point(1, 2), new Vector2(400, 400), -1, "CollisionMissle");
+                new Point(1, 2), new Vector2(400, 400), 0, "CollisionMissle");
             return spriteSettings;
         }
 
         public static SpriteSettings GetEnemyTankSetting(Game game, Vector2 startPosition)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
-                new Point(11, 11), startPosition, -1, "CollisionMissle");
+                new Point(11, 11), startPosition, 0, "CollisionMissle");
             return spriteSettings;
         }
 
