@@ -118,8 +118,25 @@ namespace AnimatedSprites.Utils
 
         public static Vector2 GetUserPosition(Vector2 aiPosition)
         {
-            //TODO: Get Closest UserTank position
-            throw new NotImplementedException();
+            Vector2 closest = aiPosition;
+            float minDistance = float.MaxValue;
+            float distance = 0.0f;
+
+            foreach (Sprite sprite in Walls)
+            {
+                if (sprite is UserControlledTank)
+                {
+                    Vector2 currentSpritePosition = sprite.GetPosition;
+                    distance = (currentSpritePosition - aiPosition).Length();
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        closest = currentSpritePosition;
+                    }
+                }
+            }
+
+            return closest;
         }
     }
 }

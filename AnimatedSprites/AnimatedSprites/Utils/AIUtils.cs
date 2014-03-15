@@ -10,12 +10,32 @@ namespace AnimatedSprites.Utils
     {
         public static Direction GetMinDirection(Vector2 difference)
         {
-            throw new NotImplementedException();
+            Direction direction;
+            if (Math.Abs(difference.X) < Math.Abs(difference.Y))
+            {
+                direction = (difference.X > 0) ? Direction.Left : Direction.Right;
+            }
+            else
+            {
+                direction = (difference.Y > 0) ? Direction.Up : Direction.Down;
+            }
+
+            return direction;
         }
 
         public static Direction GetMaxDirection(Vector2 difference)
         {
-            throw new NotImplementedException();
+            Direction direction;
+            if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+            {
+                direction = (difference.X > 0) ? Direction.Left : Direction.Right;
+            }
+            else
+            {
+                direction = (difference.Y > 0) ? Direction.Up : Direction.Down;
+            }
+
+            return direction;
         }
     }
 }

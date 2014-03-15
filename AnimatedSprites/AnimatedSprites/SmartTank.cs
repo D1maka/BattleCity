@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AnimatedSprites.GameSettings;
 using AnimatedSprites.Utils;
+using Microsoft.Xna.Framework;
 
 namespace AnimatedSprites
 {
@@ -31,6 +32,23 @@ namespace AnimatedSprites
                     //return Direction to minimize max difference(Direction from AIUtils)
 
                     //else return direction another direction
+
+                    Vector2 userTankPosition = Collisions.GetUserPosition(this.GetPosition);
+
+                    Direction d1 = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
+                    if (AllowedDirections.Contains(d1))
+                        return d1;
+
+                    Direction d2 = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                    //if (AllowedDirections.Contains(d2))
+                    return d2;
+
+                    //Direction d3;
+                    //do
+                    //{
+                    //    d3 = RandomUtils.GetRandomDirection();
+                    //} while (!AllowedDirections.Contains(d3));
+                    //return d3;
                 }
 
                 return d;
