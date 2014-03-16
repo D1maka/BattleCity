@@ -14,6 +14,10 @@ using AnimatedSprites.Utils;
 
 namespace AnimatedSprites
 {
+    public enum SpawnPlace 
+    {
+        TopLeft, TopMiddle, TopRight, BottomLeft, BottomRight
+    }
     public class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         //SpriteBatch for drawing
@@ -26,6 +30,8 @@ namespace AnimatedSprites
         Vector2 MiddleEnemyPosition { get; set; }
         Vector2 LeftEnemyPosition { get; set; }
         Vector2 RightEnemyPosition { get; set; }
+        Vector2 LeftUserPosition { get; set; }
+        Vector2 RightUserPosition { get; set; }
 
         public SpriteManager(Game game)
             : base(game)
@@ -38,6 +44,8 @@ namespace AnimatedSprites
             LeftEnemyPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
             RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale - 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
             MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2 + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
+            LeftUserPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+            RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
             RandomUtils.Game = Game;
             base.Initialize();
         }
@@ -161,7 +169,50 @@ namespace AnimatedSprites
         //TODO:Realese Spawning
         private void SpawnEnemy()
         {
-            //throw new NotImplementedException();
+            SpawnPlace place = RandomUtils.GetRandomEnemySpawnPlace();
+            Vector2 pos = GetSpawnPosition(place);
+            if (IsAllowedSpawnPosition(pos))
+            {
+                spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, pos), Default.GetMissileSetting(Game)));
+            }
         }
+
+        public Vector2 GetSpawnPosition(SpawnPlace place)
+        {
+            switch (place)
+            {
+                case SpawnPlace.TopLeft:
+                    return LeftEnemyPosition;
+                case SpawnPlace.TopMiddle:
+                    return MiddleEnemyPosition;
+                case SpawnPlace.TopRight:
+                    return RightEnemyPosition;
+                case SpawnPlace.BottomLeft:
+                    return LeftUserPosition;
+                case SpawnPlace.BottomRight:
+                    return RightUserPosition;
+                default:
+                    throw new PlaceNotFoundException();
+            }
+            
+        }
+
+        public bool IsAllowedSpawnPosition(Vector2 position)
+        {
+            Rectangle rect = new Rectangle((int)position.X, (int)position.Y, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y);
+            foreach (var item in spriteList)
+            {
+                if (item.collisionRect.Intersects(rect))
+                {
+                    return false;                    
+                }
+            }
+            return true;
+        }
+
+    }
+
+    class PlaceNotFoundException : Exception
+    {
     }
 }
