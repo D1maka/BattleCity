@@ -20,5 +20,11 @@ namespace AnimatedSprites.Utils
         {
             return ((Game1)Game).rnd.Next(start, end);
         }
+
+        public static SpawnPlace GetRandomEnemySpawnPlace()
+        {
+            int place = ((Game1)Game).rnd.Next(0, 4);
+            return (SpawnPlace)place;
+        }
     }
 }
