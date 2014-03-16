@@ -78,15 +78,15 @@ namespace AnimatedSprites.Utils
             direcs.Add(Direction.Up);
             foreach (Sprite w in Walls)
             {
-                if (w is Missile)
+                if (w is Missile || spr == w)
                     continue;
-                if (direcs.Contains(Direction.Up) && spr != w && upRect.Intersects(w.collisionRect))
+                if (direcs.Contains(Direction.Up) && upRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Up);
-                if (direcs.Contains(Direction.Right) && spr != w && rightRect.Intersects(w.collisionRect))
+                if (direcs.Contains(Direction.Right) && rightRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Right);
-                if (direcs.Contains(Direction.Left) && spr != w && leftRect.Intersects(w.collisionRect))
+                if (direcs.Contains(Direction.Left) && leftRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Left);
-                if (direcs.Contains(Direction.Down) && spr != w && downRect.Intersects(w.collisionRect))
+                if (direcs.Contains(Direction.Down) && downRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Down);
             }
 
@@ -102,13 +102,13 @@ namespace AnimatedSprites.Utils
                     if (!(item is UserControlledTank))
                         continue;
 
-                    if (allowedDirections.Contains(Direction.Left) && tank.LeftRectangle.Intersects(item.collisionRect))
+                    if ((allowedDirections.Contains(Direction.Left) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.LeftRectangle.Intersects(item.collisionRect))
                         return Direction.Left;
-                    else if (allowedDirections.Contains(Direction.Right) && tank.RightRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Right) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.RightRectangle.Intersects(item.collisionRect))
                         return Direction.Right;
-                    else if (allowedDirections.Contains(Direction.Up) && tank.UpRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Up) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.UpRectangle.Intersects(item.collisionRect))
                         return Direction.Up;
-                    else if (allowedDirections.Contains(Direction.Down) && tank.DownRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Down) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.DownRectangle.Intersects(item.collisionRect))
                         return Direction.Down;
                 }
             }

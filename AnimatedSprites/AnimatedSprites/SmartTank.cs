@@ -25,30 +25,25 @@ namespace AnimatedSprites
                 UserVisibleDirection = d;
                 if (d == Direction.None)
                 {
-                    //TODO Get UserPosition  and determine the max difference axis
-                    //between AITank(this.position) and UserTank
-
-                    //if current missile == nul and CurrentMissile.State = alive
-                    //return Direction to minimize max difference(Direction from AIUtils)
-
-                    //else return direction another direction
-
                     Vector2 userTankPosition = Collisions.GetUserPosition(this.GetPosition);
 
-                    Direction d1 = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
-                    if (AllowedDirections.Contains(d1))
-                        return d1;
+                    d = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
+                    if (AllowedDirections.Contains(d) || CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                        return d;
 
-                    Direction d2 = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
-                    //if (AllowedDirections.Contains(d2))
-                    return d2;
+                    d = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                    if (AllowedDirections.Contains(d) || CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                        return d;
 
-                    //Direction d3;
-                    //do
-                    //{
-                    //    d3 = RandomUtils.GetRandomDirection();
-                    //} while (!AllowedDirections.Contains(d3));
-                    //return d3;
+                    if (AllowedDirections.Count > 0)
+                        do
+                        {
+                            d = RandomUtils.GetRandomDirection();
+                        } while (!AllowedDirections.Contains(d));
+                    else
+                        d = Direction.None;
+
+                    return d;
                 }
 
                 return d;
