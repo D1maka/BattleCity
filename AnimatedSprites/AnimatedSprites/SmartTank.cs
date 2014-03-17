@@ -16,37 +16,44 @@ namespace AnimatedSprites
         }
 
         private Direction UserVisibleDirection { get; set; }
+        private Direction _MoveDirection;
 
         public override Direction MoveDirection
         {
             get
             {
-                Direction d = Collisions.GetUserVisibleDirection(this, AllowedDirections);
-                UserVisibleDirection = d;
-                if (d == Direction.None)
+                UserVisibleDirection = Collisions.GetUserVisibleDirection(this, AllowedDirections);
+
+                if (UserVisibleDirection == Direction.None)
                 {
-                    Vector2 userTankPosition = Collisions.GetUserPosition(this.GetPosition);
+                    if (!AllowedDirections.Contains(_MoveDirection))
+                    {
+                        Vector2 userTankPosition = Collisions.GetUserPosition(this.GetPosition);
 
-                    d = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
-                    if (AllowedDirections.Contains(d) || CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
-                        return d;
+                        Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
+                        if (AllowedDirections.Contains(maxD))
+                            _MoveDirection = maxD;
 
-                    d = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
-                    if (AllowedDirections.Contains(d) || CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
-                        return d;
+                        Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                        if (AllowedDirections.Contains(minD))
+                            _MoveDirection = minD;
 
-                    if (AllowedDirections.Count > 0)
-                        do
-                        {
-                            d = RandomUtils.GetRandomDirection();
-                        } while (!AllowedDirections.Contains(d));
-                    else
-                        d = Direction.None;
+                        if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                            _MoveDirection = maxD;
 
-                    return d;
+                        if (AllowedDirections.Count > 0)
+                            do
+                            {
+                                _MoveDirection = RandomUtils.GetRandomDirection();
+                            } while (!AllowedDirections.Contains(_MoveDirection));
+                        else
+                            _MoveDirection = Direction.None;
+                    }
                 }
+                else
+                    _MoveDirection = UserVisibleDirection;
 
-                return d;
+                return _MoveDirection;
             }
         }
 

@@ -102,13 +102,13 @@ namespace AnimatedSprites.Utils
                     if (!(item is UserControlledTank))
                         continue;
 
-                    if ((allowedDirections.Contains(Direction.Left) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.LeftRectangle.Intersects(item.collisionRect))
+                    if ((allowedDirections.Contains(Direction.Left)) && tank.LeftRectangle.Intersects(item.collisionRect))
                         return Direction.Left;
-                    else if ((allowedDirections.Contains(Direction.Right) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.RightRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Right)) && tank.RightRectangle.Intersects(item.collisionRect))
                         return Direction.Right;
-                    else if ((allowedDirections.Contains(Direction.Up) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.UpRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Up)) && tank.UpRectangle.Intersects(item.collisionRect))
                         return Direction.Up;
-                    else if ((allowedDirections.Contains(Direction.Down) || tank.CurrentMissle == null || tank.CurrentMissle.State == SpriteState.Destroyed) && tank.DownRectangle.Intersects(item.collisionRect))
+                    else if ((allowedDirections.Contains(Direction.Down)) && tank.DownRectangle.Intersects(item.collisionRect))
                         return Direction.Down;
                 }
             }

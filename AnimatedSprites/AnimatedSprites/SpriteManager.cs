@@ -23,8 +23,8 @@ namespace AnimatedSprites
         //SpriteBatch for drawing
         SpriteBatch spriteBatch;
         //spawn stuff
-        int enemySpawnMinMilliseconds = 1000;
-        int enemySpawnMaxMilliseconds = 2000;
+        int enemySpawnMinMilliseconds = 10000;
+        int enemySpawnMaxMilliseconds = 11000;
         //A sprite for the player and a list of automated sprites
         List<Sprite> spriteList = new List<Sprite>();
         Vector2 MiddleEnemyPosition { get; set; }
