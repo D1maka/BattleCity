@@ -25,5 +25,7 @@ namespace AnimatedSprites.GameSettings
         public string CollisionCueName { get; set; }
         //Scale(don`t use)
         public const float Scale = 2;
+        //Layer
+        public int DepthLayer { get; set; }
     }
 }

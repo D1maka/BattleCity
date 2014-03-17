@@ -79,5 +79,10 @@ namespace AnimatedSprites
                 currentFrame.Y = 1;
             }
         }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
     }
 }

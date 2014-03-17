@@ -53,19 +53,19 @@ namespace AnimatedSprites
             {
                 case Direction.Up:
                     missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.X * SpriteSettings.Scale / 2;
-                    missileStartPosition.Y = position.Y - MissileSetting.FrameSize.Y * SpriteSettings.Scale;
+                    missileStartPosition.Y = position.Y - MissileSetting.FrameSize.Y * SpriteSettings.Scale - speedValue;
                     break;
                 case Direction.Left:
-                    missileStartPosition.X = position.X - MissileSetting.FrameSize.X * SpriteSettings.Scale;
+                    missileStartPosition.X = position.X - MissileSetting.FrameSize.X * SpriteSettings.Scale - speedValue;
                     missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.Y * SpriteSettings.Scale / 2;
                     break;
                 case Direction.Right:
-                    missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale;
+                    missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale + speedValue;
                     missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.Y * SpriteSettings.Scale / 2;
                     break;
                 case Direction.Down:
                     missileStartPosition.X = position.X + Settings.FrameSize.X * SpriteSettings.Scale / 2 - MissileSetting.FrameSize.X * SpriteSettings.Scale / 2;
-                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale;
+                    missileStartPosition.Y = position.Y + Settings.FrameSize.Y * SpriteSettings.Scale + speedValue;
                     break;
                 case Direction.None:
                     break;

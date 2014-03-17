@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AITank.cs" />
+    <Compile Include="Bush.cs" />
     <Compile Include="GameSettings\Default.cs" />
     <Compile Include="IndestructibleWall.cs" />
     <Compile Include="Missile.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Utils\AIUtils.cs" />
     <Compile Include="Utils\Collisions.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Utils\SpriteUtils.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>

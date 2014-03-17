@@ -23,8 +23,8 @@ namespace AnimatedSprites
         //SpriteBatch for drawing
         SpriteBatch spriteBatch;
         //spawn stuff
-        int enemySpawnMinMilliseconds = 10000;
-        int enemySpawnMaxMilliseconds = 11000;
+        int enemySpawnMinMilliseconds = 1000;
+        int enemySpawnMaxMilliseconds = 6000;
         //A sprite for the player and a list of automated sprites
         List<Sprite> spriteList = new List<Sprite>();
         Vector2 MiddleEnemyPosition { get; set; }
@@ -41,12 +41,13 @@ namespace AnimatedSprites
         public override void Initialize()
         {
             ResetSpawnTime();
-            LeftEnemyPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
-            RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
-            MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
-            LeftUserPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
-            RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+            LeftEnemyPosition = new Vector2(0, 0);
+            RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, 0);
+            MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2, 0);
+            LeftUserPosition = new Vector2(0, Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y * SpriteSettings.Scale);
+            RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y * SpriteSettings.Scale);
             RandomUtils.Game = Game;
+            Collisions.GameWindow = Game.Window.ClientBounds;
             base.Initialize();
         }
 
@@ -55,24 +56,9 @@ namespace AnimatedSprites
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
 
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
-            {
-                for (int j = 0; j < Game.Window.ClientBounds.Height; j += (int)(Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale))
-                    spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(i, j))));
-            }
-
-            for (int i = 0; i < Game.Window.ClientBounds.Width; i += (int)(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
-            {
-                for (int j = AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X; j < Game.Window.ClientBounds.Height; j += (int)(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale))
-                    spriteList.Add(new IndestructibleWall(Default.GetWallSetting(Game, new Vector2(i, j))));
-            }
-
-            spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, LeftEnemyPosition), Default.GetMissileSetting(Game)));
-            spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, RightEnemyPosition), Default.GetMissileSetting(Game)));
-
-            List<Vector2> walls = Default.GetWallPosition();
-            foreach (Vector2 pos in walls)
-                spriteList.Add(new Wall(Default.GetWallSetting(Game, pos)));
+            Dictionary<Vector2, byte> walls = Default.GetWallPosition();
+            foreach (KeyValuePair<Vector2, byte> pos in walls)
+                spriteList.Add(SpriteUtils.GetWall(pos.Value, pos.Key, Game));
 
             //Configure Utils
             Collisions.Walls = spriteList;
@@ -131,11 +117,10 @@ namespace AnimatedSprites
                             spawnedSprites.Add(m);
                     }
 
-                    if (Game.Window.ClientBounds.X > 0 && s.IsOutOfBounds(Game.Window.ClientBounds))
-                    {
-                        s.State = SpriteState.Destroyed;
-                    }
                     // Удаляем объект, если он вне поля
+                    if (Game.Window.ClientBounds.X > 0 && s.IsOutOfBounds(Game.Window.ClientBounds))
+                        s.State = SpriteState.Destroyed;
+
                     if (s.State == SpriteState.Destroyed)
                     {
                         spriteList.RemoveAt(i);

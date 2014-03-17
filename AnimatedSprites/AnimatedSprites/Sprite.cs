@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AnimatedSprites.GameSettings;
+using AnimatedSprites.Utils;
 
 namespace AnimatedSprites
 {
@@ -108,13 +109,13 @@ namespace AnimatedSprites
                     currentFrame.Y,
                     Settings.FrameSize.X, Settings.FrameSize.Y),
                 Color.White, 0, Vector2.Zero, SpriteSettings.Scale
-                , SpriteEffects.None, 0);
+                , SpriteEffects.None, Settings.DepthLayer);
         }
 
         public abstract void GetCurrentFrame(ref Point currentFrame);
 
         // Gets the collision rect based on position, framesize and collision offset
-        public Rectangle collisionRect
+        public virtual Rectangle collisionRect
         {
             get
             {
@@ -128,10 +129,7 @@ namespace AnimatedSprites
 
         public bool IsOutOfBounds(Rectangle bounds)
         {
-            return (position.X < (-Settings.FrameSize.X) ||
-                position.Y < (-Settings.FrameSize.Y) ||
-                position.X > bounds.Width ||
-                position.Y > bounds.Height);
+            return Collisions.IsOutOfBounds(collisionRect, bounds);
         }
 
 

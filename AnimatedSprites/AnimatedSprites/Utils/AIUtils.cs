@@ -12,13 +12,9 @@ namespace AnimatedSprites.Utils
         {
             Direction direction;
             if (Math.Abs(difference.X) < Math.Abs(difference.Y))
-            {
                 direction = (difference.X > 0) ? Direction.Left : Direction.Right;
-            }
             else
-            {
                 direction = (difference.Y > 0) ? Direction.Up : Direction.Down;
-            }
 
             return direction;
         }
@@ -27,13 +23,9 @@ namespace AnimatedSprites.Utils
         {
             Direction direction;
             if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-            {
                 direction = (difference.X > 0) ? Direction.Left : Direction.Right;
-            }
             else
-            {
                 direction = (difference.Y > 0) ? Direction.Up : Direction.Down;
-            }
 
             return direction;
         }

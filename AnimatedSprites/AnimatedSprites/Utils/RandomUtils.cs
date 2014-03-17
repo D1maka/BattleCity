@@ -23,7 +23,7 @@ namespace AnimatedSprites.Utils
 
         public static SpawnPlace GetRandomEnemySpawnPlace()
         {
-            int place = ((Game1)Game).rnd.Next(0, 2);
+            int place = ((Game1)Game).rnd.Next(0, 3);
             return (SpawnPlace)place;
         }
     }

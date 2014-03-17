@@ -33,21 +33,30 @@ namespace AnimatedSprites
                         Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
                         if (AllowedDirections.Contains(maxD))
                             _MoveDirection = maxD;
-
-                        Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
-                        if (AllowedDirections.Contains(minD))
-                            _MoveDirection = minD;
-
-                        if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
-                            _MoveDirection = maxD;
-
-                        if (AllowedDirections.Count > 0)
-                            do
-                            {
-                                _MoveDirection = RandomUtils.GetRandomDirection();
-                            } while (!AllowedDirections.Contains(_MoveDirection));
                         else
-                            _MoveDirection = Direction.None;
+                        {
+
+                            Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                            if (AllowedDirections.Contains(minD))
+                                _MoveDirection = minD;
+                            else
+                            {
+
+                                if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                                    _MoveDirection = maxD;
+                                else
+                                {
+
+                                    if (AllowedDirections.Count > 0)
+                                        do
+                                        {
+                                            _MoveDirection = RandomUtils.GetRandomDirection();
+                                        } while (!AllowedDirections.Contains(_MoveDirection));
+                                    else
+                                        _MoveDirection = Direction.None;
+                                }
+                            }
+                        }
                     }
                 }
                 else
@@ -62,6 +71,11 @@ namespace AnimatedSprites
             base.Update(gameTime, clientBounds);
             if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
                 Fire();
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
         }
     }
 }

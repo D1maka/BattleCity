@@ -9,14 +9,10 @@ namespace AnimatedSprites.Utils
     static class Collisions
     {
         public static List<Sprite> Walls;
-
+        public static Rectangle GameWindow { get; set; }
         public static void ReleaseCollision(Sprite firstSprite, Sprite secondSprite)
         {
-            if (firstSprite is Tank && secondSprite is Missile)
-                ReleaseCollision((Tank)firstSprite, (Missile)secondSprite);
-            else if (secondSprite is Tank && firstSprite is Missile)
-                ReleaseCollision((Tank)secondSprite, (Missile)firstSprite);
-            else if (firstSprite is Tank && secondSprite is Tank || secondSprite is StaticSprite && firstSprite is StaticSprite
+            if (firstSprite is Tank && secondSprite is Tank || secondSprite is StaticSprite && firstSprite is StaticSprite
                 || firstSprite is Tank && secondSprite is StaticSprite || firstSprite is StaticSprite && secondSprite is Tank)
             {
             }
@@ -27,37 +23,12 @@ namespace AnimatedSprites.Utils
             }
         }
 
-        private static void ReleaseCollision(Tank tank, Missile missle)
+        public static bool IsOutOfBounds(Rectangle spritRectangle, Rectangle bounds)
         {
-            if (tank.CurrentMissle != missle)
-            {
-                tank.Destroy();
-                missle.Destroy();
-            }
-        }
-
-        public static bool IsAllowedDirection(Sprite spr, Direction direction, int speed)
-        {
-            Rectangle rect = spr.collisionRect;
-            switch (direction)
-            {
-                case Direction.Up: rect.Offset(0, -speed);
-                    break;
-                case Direction.Down: rect.Offset(0, speed);
-                    break;
-                case Direction.Right: rect.Offset(speed, 0);
-                    break;
-                case Direction.Left: rect.Offset(-speed, 0);
-                    break;
-            }
-
-            foreach (Sprite w in Walls)
-            {
-                if (spr != w && rect.Intersects(w.collisionRect))
-                    return false;
-            }
-
-            return true;
+            return (spritRectangle.X < 0) ||
+                (spritRectangle.Y < 0) ||
+                (spritRectangle.X + spritRectangle.Width > bounds.Width) ||
+                (spritRectangle.Y + spritRectangle.Height > bounds.Height);
         }
 
         public static List<Direction> GetAllowedDirections(Sprite spr, int speed)
@@ -76,10 +47,23 @@ namespace AnimatedSprites.Utils
             direcs.Add(Direction.Left);
             direcs.Add(Direction.Right);
             direcs.Add(Direction.Up);
+
+            if (IsOutOfBounds(upRect, GameWindow))
+                direcs.Remove(Direction.Up);
+            if (IsOutOfBounds(rightRect, GameWindow))
+                direcs.Remove(Direction.Right);
+            if (IsOutOfBounds(leftRect, GameWindow))
+                direcs.Remove(Direction.Left);
+            if (IsOutOfBounds(downRect, GameWindow))
+                direcs.Remove(Direction.Down);
+
             foreach (Sprite w in Walls)
             {
+                if (direcs.Count == 0)
+                    break;
                 if (w is Missile || spr == w)
                     continue;
+
                 if (direcs.Contains(Direction.Up) && upRect.Intersects(w.collisionRect))
                     direcs.Remove(Direction.Up);
                 if (direcs.Contains(Direction.Right) && rightRect.Intersects(w.collisionRect))
