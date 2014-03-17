@@ -25,6 +25,7 @@ namespace AnimatedSprites.GameSettings
             SpriteSettings spriteSettings = new SpriteSettings();
             spriteSettings.DefaultMillisecondsPerFrame = defaultMillisecondsPerFrame;
             spriteSettings.OriginalSpeed = originalSpeed;
+
             spriteSettings.TextureImage = textureImage;
             spriteSettings.FrameSize = frameSize;
             spriteSettings.FirstFrame = firstFrame;
@@ -37,7 +38,7 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetMissileSetting(Game game)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), new Point(4, 4),
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), MissileSetting.FrameSize,
                 new Point(1, 1), new Vector2(50, 50), 0, "CollisionMissle");
             return spriteSettings;
         }
@@ -105,6 +106,10 @@ namespace AnimatedSprites.GameSettings
         public class WallSetting
         {
             public static readonly Point FrameSize = new Point(15, 15);
+        }
+        public class MissileSetting
+        {
+            public static readonly Point FrameSize = new Point(4, 4);
         }
     }
 }

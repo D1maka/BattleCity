@@ -17,10 +17,10 @@ namespace AnimatedSprites
         {
         }
 
-        public Rectangle LeftRectangle { get { return new Rectangle((int)position.X - VissionRectangleLength, (int)position.Y, VissionRectangleLength, Settings.FrameSize.Y * (int)SpriteSettings.Scale); } }
-        public Rectangle RightRectangle { get { return new Rectangle((int)(position.X + Settings.FrameSize.X * SpriteSettings.Scale), (int)position.Y, VissionRectangleLength, Settings.FrameSize.Y * (int)SpriteSettings.Scale); } }
-        public Rectangle DownRectangle { get { return new Rectangle((int)position.X, (int)position.Y + Settings.FrameSize.Y * (int)SpriteSettings.Scale, Settings.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
-        public Rectangle UpRectangle { get { return new Rectangle((int)position.X, (int)position.Y - VissionRectangleLength, Settings.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
+        public Rectangle LeftRectangle { get { return new Rectangle((int)position.X - VissionRectangleLength, (int)position.Y + Default.TankSetting.FrameSize.Y * (int)SpriteSettings.Scale / 2 - Default.MissileSetting.FrameSize.Y * (int)SpriteSettings.Scale / 2, VissionRectangleLength, Default.MissileSetting.FrameSize.Y * (int)SpriteSettings.Scale); } }
+        public Rectangle RightRectangle { get { return new Rectangle((int)(position.X + Settings.FrameSize.X * SpriteSettings.Scale), (int)(int)position.Y + Default.TankSetting.FrameSize.Y * (int)SpriteSettings.Scale / 2 - Default.MissileSetting.FrameSize.Y * (int)SpriteSettings.Scale / 2, VissionRectangleLength, Default.MissileSetting.FrameSize.Y * (int)SpriteSettings.Scale); } }
+        public Rectangle DownRectangle { get { return new Rectangle((int)position.X + Default.TankSetting.FrameSize.X * (int)SpriteSettings.Scale / 2 - Default.MissileSetting.FrameSize.X * (int)SpriteSettings.Scale / 2, (int)position.Y + Settings.FrameSize.Y * (int)SpriteSettings.Scale, Default.MissileSetting.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
+        public Rectangle UpRectangle { get { return new Rectangle((int)position.X + Default.TankSetting.FrameSize.X * (int)SpriteSettings.Scale / 2 - Default.MissileSetting.FrameSize.X * (int)SpriteSettings.Scale / 2, (int)position.Y - VissionRectangleLength, Default.MissileSetting.FrameSize.X * (int)SpriteSettings.Scale, VissionRectangleLength); } }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

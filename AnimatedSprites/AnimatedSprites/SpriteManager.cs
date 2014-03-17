@@ -14,7 +14,7 @@ using AnimatedSprites.Utils;
 
 namespace AnimatedSprites
 {
-    public enum SpawnPlace 
+    public enum SpawnPlace
     {
         TopLeft, TopMiddle, TopRight, BottomLeft, BottomRight
     }
@@ -41,9 +41,9 @@ namespace AnimatedSprites
         public override void Initialize()
         {
             ResetSpawnTime();
-            LeftEnemyPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
-            RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale - 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
-            MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2 + 10, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale + 10);
+            LeftEnemyPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+            RightEnemyPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+            MiddleEnemyPosition = new Vector2((Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale) / 2, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
             LeftUserPosition = new Vector2(AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
             RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.X * SpriteSettings.Scale - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, AnimatedSprites.GameSettings.Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
             RandomUtils.Game = Game;
@@ -117,7 +117,7 @@ namespace AnimatedSprites
                     {
                         for (int j = i + 1; j < spriteList.Count; j++)
                         {
-                            if (spriteList[j].State == SpriteState.Alive && 
+                            if (spriteList[j].State == SpriteState.Alive &&
                                 s.State == SpriteState.Alive &&
                                 s.collisionRect.Intersects(spriteList[j].collisionRect))
                                 Collisions.ReleaseCollision(s, spriteList[j]);
@@ -194,7 +194,7 @@ namespace AnimatedSprites
                 default:
                     throw new PlaceNotFoundException();
             }
-            
+
         }
 
         public bool IsAllowedSpawnPosition(Vector2 position)
@@ -204,7 +204,7 @@ namespace AnimatedSprites
             {
                 if (item.collisionRect.Intersects(rect))
                 {
-                    return false;                    
+                    return false;
                 }
             }
             return true;
