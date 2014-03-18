@@ -18,16 +18,17 @@ namespace AnimatedSprites
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont scoreFont;
+        SpriteFont scoreBoldFont;
         SpriteManager spriteManager;
         //Random staff
-        public Random rnd { get; private set;}
+        public Random rnd { get; private set; }
         //XACT stuff
         AudioEngine audioEngine;
         WaveBank waveBank;
         SoundBank soundBank;
         Cue trackCue;
         //background
-        Texture2D backgroundTexture;
+        Texture2D cursorTexture;
         //Game status staff
         public void EndGame()
         {
@@ -60,10 +61,6 @@ namespace AnimatedSprites
 
         protected override void Initialize()
         {
-            spriteManager = new SpriteManager(this);
-            Components.Add(spriteManager);
-            spriteManager.Visible = false;
-            spriteManager.Enabled = false;
             base.Initialize();
         }
 
@@ -73,11 +70,12 @@ namespace AnimatedSprites
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //load font
             scoreFont = Content.Load<SpriteFont>(@"fonts\score");
+            scoreBoldFont = Content.Load<SpriteFont>(@"fonts\scoreBold");
             // Load the XACT data
             audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
             waveBank = new WaveBank(audioEngine, @"Content\Audio\Wave Bank.xwb");
             soundBank = new SoundBank(audioEngine, @"Content\Audio\Sound Bank.xsb");
-            backgroundTexture = Content.Load<Texture2D>(@"Images\background");
+            cursorTexture = Content.Load<Texture2D>(@"Images\background");
             // Start the soundtrack audio
             trackCue = soundBank.GetCue("track");
             trackCue.Play();
@@ -91,16 +89,39 @@ namespace AnimatedSprites
             // TODO: Unload any non ContentManager content here
         }
 
+        int selectedIndex = 0;
+        const int GCD = 300;
+        int CurrentGCD = 0;
+        string[] texts = new string[] { "1 player", "2 players" };
         protected override void Update(GameTime gameTime)
         {
             switch (currentGameState)
             {
+
                 case GameState.Start:
-                    if (Keyboard.GetState().GetPressedKeys().Length > 0)
+                    CurrentGCD -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (CurrentGCD < 0)
                     {
-                        currentGameState = GameState.InGame;
-                        spriteManager.Enabled = true;
-                        spriteManager.Visible = true;
+                        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                        {
+                            CurrentGCD = GCD;
+                            selectedIndex--;
+                            if (selectedIndex < 0)
+                                selectedIndex = texts.Count() - 1;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                        {
+                            CurrentGCD = GCD;
+                            selectedIndex++;
+                            if (selectedIndex > texts.Count() - 1)
+                                selectedIndex = 0;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                        {
+                            spriteManager = new SpriteManager(this, selectedIndex == 1);
+                            Components.Add(spriteManager);
+                            currentGameState = GameState.InGame;
+                        }
                     }
                     break;
                 case GameState.InGame:
@@ -121,29 +142,22 @@ namespace AnimatedSprites
             switch (currentGameState)
             {
                 case GameState.Start:
-                        GraphicsDevice.Clear(Color.AliceBlue);
+                    GraphicsDevice.Clear(Color.AliceBlue);
 
-                        // Вывод в заставке текста
-                        spriteBatch.Begin();
-                        string text = "Kill tanks!";
-                        spriteBatch.DrawString(scoreFont, text,
-                            new Vector2((Window.ClientBounds.Width / 2)
-                            - (scoreFont.MeasureString(text).X / 2),
-                            (Window.ClientBounds.Height / 2)
-                            - (scoreFont.MeasureString(text).Y / 2)),
-                            Color.SaddleBrown);
+                    // Вывод в заставке текста
+                    spriteBatch.Begin();
 
-                        text = "(Press any key to start game)";
-                        spriteBatch.DrawString(scoreFont, text,
-                            new Vector2((Window.ClientBounds.Width / 2)
-                            - (scoreFont.MeasureString(text).X / 2),
-                            (Window.ClientBounds.Height / 2)
-                            - (scoreFont.MeasureString(text).Y / 2) + 30),
-                            Color.SaddleBrown);
+                    for (int i = 0; i < texts.Count(); i++)
+                    {
+                        spriteBatch.DrawString(selectedIndex == i ? scoreBoldFont : scoreFont, texts[i],
+                               new Vector2((Window.ClientBounds.Width / 2) - (scoreFont.MeasureString(texts[i]).X / 2),
+                               (Window.ClientBounds.Height / 2) - (scoreFont.MeasureString(texts[i]).Y / 2) + 30 * i),
+                               Color.SaddleBrown);
+                    }
 
-                        spriteBatch.End();
+                    spriteBatch.End();
                     break;
-                case GameState.InGame: 
+                case GameState.InGame:
                     GraphicsDevice.Clear(Color.Black);
                     base.Draw(gameTime);
                     break;

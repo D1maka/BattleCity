@@ -101,7 +101,9 @@
     <Compile Include="SpriteManager.cs" />
     <Compile Include="StaticSprite.cs" />
     <Compile Include="Tank.cs" />
+    <Compile Include="UserArrowControlled.cs" />
     <Compile Include="UserControlledTank.cs" />
+    <Compile Include="UserWASDControlled.cs" />
     <Compile Include="Utils\AIUtils.cs" />
     <Compile Include="Utils\Collisions.cs" />
     <Compile Include="Utils\RandomUtils.cs" />

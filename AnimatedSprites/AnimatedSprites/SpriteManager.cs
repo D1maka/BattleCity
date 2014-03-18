@@ -20,6 +20,7 @@ namespace AnimatedSprites
     }
     public class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        public bool isTwoPLayer;
         //SpriteBatch for drawing
         SpriteBatch spriteBatch;
         //spawn stuff
@@ -33,9 +34,10 @@ namespace AnimatedSprites
         Vector2 LeftUserPosition { get; set; }
         Vector2 RightUserPosition { get; set; }
 
-        public SpriteManager(Game game)
+        public SpriteManager(Game game, bool IsTwoPlayer)
             : base(game)
         {
+            this.isTwoPLayer = IsTwoPlayer;
         }
 
         public override void Initialize()
@@ -54,7 +56,9 @@ namespace AnimatedSprites
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            spriteList.Add(new UserControlledTank(Default.GetUserTankSetting(Game), Default.GetMissileSetting(Game)));
+            spriteList.Add(new UserArrowControlled(Default.GetUserTankSetting(Game, RightUserPosition), Default.GetMissileSetting(Game)));
+            if (isTwoPLayer)
+                spriteList.Add(new UserWASDControlled(Default.GetUserTankSetting(Game, LeftUserPosition), Default.GetMissileSetting(Game)));
 
             Dictionary<Vector2, byte> walls = Default.GetWallPosition();
             foreach (KeyValuePair<Vector2, byte> pos in walls)

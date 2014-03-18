@@ -44,10 +44,10 @@ namespace AnimatedSprites.GameSettings
         }
 
 
-        public static SpriteSettings GetUserTankSetting(Game game)
+        public static SpriteSettings GetUserTankSetting(Game game, Vector2 startPosition)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
-                new Point(1, 2), new Vector2(400, 400), 0, "CollisionMissle", 0);
+                new Point(1, 2), startPosition, 0, "CollisionMissle", 0);
             return spriteSettings;
         }
 
