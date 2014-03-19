@@ -24,8 +24,8 @@ namespace AnimatedSprites
         // Stuff needed to draw the sprite
         Point currentFrame;
         // Framerate stuff
-        int timeSinceLastFrame = 0;
-        int millisecondsPerFrame;
+        protected int timeSinceLastFrame = 0;
+        protected int millisecondsPerFrame;
         // Movement data
         protected int speedValue;
         protected Vector2 speed

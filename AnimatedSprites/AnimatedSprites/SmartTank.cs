@@ -68,9 +68,15 @@ namespace AnimatedSprites
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
         {
-            base.Update(gameTime, clientBounds);
-            if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
-                Fire();
+            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastFrame > millisecondsPerFrame)
+            {
+                // Increment to next frame
+                timeSinceLastFrame = 0;
+                base.Update(gameTime, clientBounds);
+                if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
+                    Fire();
+            }
         }
 
         public override void Destroy()

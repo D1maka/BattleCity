@@ -104,14 +104,20 @@ namespace AnimatedSprites
 
                     s.Update(gameTime, Game.Window.ClientBounds);
 
-                    if (spriteList.Count > i + 1)
+                    if (s is Missile)
                     {
-                        for (int j = i + 1; j < spriteList.Count; j++)
+                        for (int j = 0; j < spriteList.Count; j++)
                         {
+                            if (i == j)
+                                continue;
+
                             if (spriteList[j].State == SpriteState.Alive &&
                                 s.State == SpriteState.Alive &&
                                 s.collisionRect.Intersects(spriteList[j].collisionRect))
+                            {
                                 Collisions.ReleaseCollision(s, spriteList[j]);
+                                break;
+                            }
                         }
                     }
 
@@ -162,7 +168,7 @@ namespace AnimatedSprites
             SpawnPlace place = RandomUtils.GetRandomEnemySpawnPlace();
             Vector2 pos = GetSpawnPosition(place);
             if (IsAllowedSpawnPosition(pos))
-                spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game, pos), 
+                spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, pos),
                     Default.GetMissileSetting(Game)));
         }
 
