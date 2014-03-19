@@ -50,6 +50,7 @@ namespace AnimatedSprites
             RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y * SpriteSettings.Scale);
             RandomUtils.Game = Game;
             Collisions.GameWindow = Game.Window.ClientBounds;
+            SpriteUtils.GameWindow = Game.Window.ClientBounds;
             base.Initialize();
         }
 
@@ -60,7 +61,7 @@ namespace AnimatedSprites
             if (isTwoPLayer)
                 spriteList.Add(new UserWASDControlled(Default.GetUserTankSetting(Game, LeftUserPosition), Default.GetMissileSetting(Game)));
 
-            Dictionary<Vector2, byte> walls = Default.GetWallPosition();
+            Dictionary<Vector2, byte> walls = SpriteUtils.GetDynamicMap();
             foreach (KeyValuePair<Vector2, byte> pos in walls)
                 spriteList.Add(SpriteUtils.GetWall(pos.Value, pos.Key, Game));
 
@@ -161,9 +162,8 @@ namespace AnimatedSprites
             SpawnPlace place = RandomUtils.GetRandomEnemySpawnPlace();
             Vector2 pos = GetSpawnPosition(place);
             if (IsAllowedSpawnPosition(pos))
-            {
-                spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, pos), Default.GetMissileSetting(Game)));
-            }
+                spriteList.Add(new RandomMovedTank(Default.GetEnemyTankSetting(Game, pos), 
+                    Default.GetMissileSetting(Game)));
         }
 
         public Vector2 GetSpawnPosition(SpawnPlace place)
@@ -192,9 +192,7 @@ namespace AnimatedSprites
             foreach (var item in spriteList)
             {
                 if (item.collisionRect.Intersects(rect))
-                {
                     return false;
-                }
             }
             return true;
         }

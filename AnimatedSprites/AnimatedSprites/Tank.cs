@@ -20,6 +20,7 @@ namespace AnimatedSprites
             : base(tankSettings)
         {
             MissileSetting = missileSetting;
+            MissileSetting.TeamNumber = TeamNumber;
         }
 
         public Missile Fire()

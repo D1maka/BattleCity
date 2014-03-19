@@ -20,6 +20,7 @@ namespace AnimatedSprites
         //Original data
         protected SpriteSettings Settings { get; set; }
         public SpriteState State { get; set; }
+        public int TeamNumber { get; protected set; }
         // Stuff needed to draw the sprite
         Point currentFrame;
         // Framerate stuff
@@ -85,6 +86,7 @@ namespace AnimatedSprites
             this.collisionCueName = Settings.CollisionCueName;
             this.position = Settings.StartPosition;
             this.millisecondsPerFrame = Settings.DefaultMillisecondsPerFrame;
+            this.TeamNumber = settings.TeamNumber;
         }
 
         public virtual void Update(GameTime gameTime, Rectangle clientBounds)

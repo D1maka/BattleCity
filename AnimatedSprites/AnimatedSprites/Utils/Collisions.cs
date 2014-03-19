@@ -12,15 +12,17 @@ namespace AnimatedSprites.Utils
         public static Rectangle GameWindow { get; set; }
         public static void ReleaseCollision(Sprite firstSprite, Sprite secondSprite)
         {
-            if (firstSprite is Tank && secondSprite is Tank || secondSprite is StaticSprite && firstSprite is StaticSprite
-                || firstSprite is Tank && secondSprite is StaticSprite || firstSprite is StaticSprite && secondSprite is Tank)
-            {
-            }
-            else
-            {
-                firstSprite.Destroy();
-                secondSprite.Destroy();
-            }
+            if (firstSprite is Missile)
+                ReleaseCollision(firstSprite as Missile, secondSprite);
+            else if (secondSprite is Missile)
+                ReleaseCollision(secondSprite as Missile, firstSprite);
+        }
+
+        public static void ReleaseCollision(Missile missile, Sprite sprite)
+        {
+            missile.Destroy();
+            if (missile.TeamNumber != sprite.TeamNumber || sprite is Missile)
+                sprite.Destroy();
         }
 
         public static bool IsOutOfBounds(Rectangle spritRectangle, Rectangle bounds)

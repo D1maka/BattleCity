@@ -8,6 +8,10 @@ namespace AnimatedSprites.Utils
 {
     static class RandomUtils
     {
+        const int EmptyPlacePossibility = 60;
+        const int WallPossibility = 30;
+        const int BushPossibility = 10;
+
         public static Game Game { get; set; }
 
         public static Direction GetRandomDirection()
@@ -25,6 +29,19 @@ namespace AnimatedSprites.Utils
         {
             int place = ((Game1)Game).rnd.Next(0, 3);
             return (SpawnPlace)place;
+        }
+
+        public static byte GetRandomStaticSprite()
+        {
+            int r = ((Game1)Game).rnd.Next(0, 100);
+            if (r < EmptyPlacePossibility)
+                return AnimatedSprites.GameSettings.Default.WallSetting.EmptyPlace;
+            if (r < EmptyPlacePossibility + WallPossibility)
+                return AnimatedSprites.GameSettings.Default.WallSetting.Wall;
+            if (r < EmptyPlacePossibility + WallPossibility + BushPossibility)
+                return AnimatedSprites.GameSettings.Default.WallSetting.Bush;
+
+            return AnimatedSprites.GameSettings.Default.WallSetting.EmptyPlace;
         }
     }
 }

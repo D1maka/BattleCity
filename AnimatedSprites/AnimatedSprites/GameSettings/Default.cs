@@ -20,9 +20,10 @@ namespace AnimatedSprites.GameSettings
         const string textureImageFile = @"Images\sprites";
 
         public static SpriteSettings GetCustomSetting(int defaultMillisecondsPerFrame, int originalSpeed, Texture2D textureImage
-            , Point frameSize, Point firstFrame, Vector2 startPosition, int collisionOffset, string collisionCueName, int depthLayer)
+            , Point frameSize, Point firstFrame, Vector2 startPosition, int collisionOffset, string collisionCueName, int depthLayer, int teamNumber)
         {
             SpriteSettings spriteSettings = new SpriteSettings();
+            spriteSettings.TeamNumber = teamNumber;
             spriteSettings.DefaultMillisecondsPerFrame = defaultMillisecondsPerFrame;
             spriteSettings.OriginalSpeed = originalSpeed;
 
@@ -39,7 +40,7 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetMissileSetting(Game game)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 5, game.Content.Load<Texture2D>(textureImageFile), MissileSetting.FrameSize,
-                new Point(1, 1), new Vector2(50, 50), 0, "CollisionMissle", 0);
+                new Point(1, 1), new Vector2(50, 50), 0, "CollisionMissle", 0, 0);
             return spriteSettings;
         }
 
@@ -47,55 +48,21 @@ namespace AnimatedSprites.GameSettings
         public static SpriteSettings GetUserTankSetting(Game game, Vector2 startPosition)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
-                new Point(1, 2), startPosition, 0, "CollisionMissle", 0);
+                new Point(1, 2), startPosition, 0, "CollisionMissle", 0, Team.UserTeam);
             return spriteSettings;
         }
 
         public static SpriteSettings GetEnemyTankSetting(Game game, Vector2 startPosition)
         {
             SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
-                new Point(11, 11), startPosition, 0, "CollisionMissle", 0);
+                new Point(11, 11), startPosition, 0, "CollisionMissle", 0, Team.EnemyTeam);
             return spriteSettings;
         }
 
         public static SpriteSettings GetWallSetting(Game game, Vector2 startPosition)
         {
             return Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), WallSetting.FrameSize,
-                new Point(256, 0), startPosition, 0, "CollisionMissle", 1);
-        }
-
-        public static Dictionary<Vector2, byte> GetWallPosition()
-        {
-            Dictionary<Vector2, byte> walls = new Dictionary<Vector2, byte>();
-            const int N = 14, M = 23;
-
-            byte[,] map = new byte[N, M]   {{0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                          {0,0,1,0,0,0,1,3,3,3,3,3,0,0,1,0,0,0,0,0,0,0,0},
-                                          {0,0,0,0,1,1,1,1,1,1,0,0,0,3,1,0,0,0,0,0,1,1,1},
-                                          {0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
-                                          {0,0,1,1,1,0,1,1,0,1,1,1,1,1,1,0,0,1,0,0,1,1,1},
-                                          {1,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0},
-                                          {1,1,1,0,0,0,1,0,0,1,0,0,1,1,1,1,1,1,0,1,0,0,0},
-                                          {1,0,0,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0},
-                                          {0,0,0,1,1,1,1,0,0,1,1,1,1,0,0,1,0,0,0,1,0,0,0},
-                                          {0,0,0,1,0,1,1,0,0,1,1,1,1,0,0,1,0,1,1,1,0,0,0},
-                                          {0,0,0,1,0,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,0,0,0},
-                                          {0,0,0,1,0,1,1,0,0,1,0,1,1,0,0,1,0,1,1,1,0,0,0},
-                                          {0,1,1,1,0,0,0,0,0,0,3,0,0,0,0,0,0,1,0,0,0,0,0},
-                                          {0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,3,0}};
-            for (int i = 0; i < N; i++)
-            {
-                for (int j = 0; j < M; j++)
-                {
-                    if (map[i, j] > 0)
-                    {
-                        walls.Add(new Vector2(j * WallSetting.FrameSize.X * SpriteSettings.Scale,
-                            i * WallSetting.FrameSize.Y * SpriteSettings.Scale), map[i, j]);
-                    }
-                }
-            }
-
-            return walls;
+                new Point(256, 0), startPosition, 0, "CollisionMissle", 1, Team.StaticTeam);
         }
 
         public class TankSetting
@@ -106,6 +73,7 @@ namespace AnimatedSprites.GameSettings
 
         public class WallSetting
         {
+            public const byte EmptyPlace = 0;
             public const byte Wall = 1;
             public const byte IndestructibleWall = 2;
             public const byte Bush = 3;
@@ -115,6 +83,13 @@ namespace AnimatedSprites.GameSettings
         public class MissileSetting
         {
             public static readonly Point FrameSize = new Point(4, 4);
+        }
+
+        public class Team
+        {
+            public const int UserTeam = 1;
+            public const int EnemyTeam = 2;
+            public const int StaticTeam = 3;
         }
     }
 }

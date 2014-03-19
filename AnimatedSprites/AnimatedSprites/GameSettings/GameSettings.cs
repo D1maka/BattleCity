@@ -24,6 +24,7 @@ namespace AnimatedSprites.GameSettings
         //Data for Collision Audio
         public string CollisionCueName { get; set; }
         //Scale(don`t use)
+        public int TeamNumber { get; set; }
         public const float Scale = 2;
         //Layer
         public int DepthLayer { get; set; }
