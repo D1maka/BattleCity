@@ -86,8 +86,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Map.cs" />
     <Compile Include="AITank.cs" />
     <Compile Include="Bush.cs" />
+    <Compile Include="CellInformation.cs" />
     <Compile Include="GameSettings\Default.cs" />
     <Compile Include="IndestructibleWall.cs" />
     <Compile Include="Missile.cs" />

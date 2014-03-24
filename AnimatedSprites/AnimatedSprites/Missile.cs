@@ -21,10 +21,10 @@ namespace AnimatedSprites
             get { return fireDirection; }
         }
 
-        public override void Update(GameTime gameTime, Rectangle clientBounds)
+        public override void Update(GameTime gameTime)
         {
             position += speed;
-            base.Update(gameTime, clientBounds);
+            base.Update(gameTime);
         }
 
         public override void GetCurrentFrame(ref Microsoft.Xna.Framework.Point currentFrame)

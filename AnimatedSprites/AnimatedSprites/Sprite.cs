@@ -81,7 +81,7 @@ namespace AnimatedSprites
         public Sprite(SpriteSettings settings)
         {
             this.Settings = settings;
-            this.currentFrame = Settings.FirstFrame;
+            this.currentFrame = settings.FirstFrame;
             this.speedValue = Settings.OriginalSpeed;
             this.collisionCueName = Settings.CollisionCueName;
             this.position = Settings.StartPosition;
@@ -89,7 +89,7 @@ namespace AnimatedSprites
             this.TeamNumber = settings.TeamNumber;
         }
 
-        public virtual void Update(GameTime gameTime, Rectangle clientBounds)
+        public virtual void Update(GameTime gameTime)
         {
 
             // Update frame if time to do so based on framerate

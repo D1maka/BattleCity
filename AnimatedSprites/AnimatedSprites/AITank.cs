@@ -45,7 +45,7 @@ namespace AnimatedSprites
                     break;
                 case Direction.Right:
                     currentFrame.X = 225;
-                    currentFrame.Y = 2;
+                    currentFrame.Y = 1;
                     break;
                 case Direction.Down:
                     currentFrame.X = 193;

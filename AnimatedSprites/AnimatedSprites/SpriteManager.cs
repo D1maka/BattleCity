@@ -24,10 +24,10 @@ namespace AnimatedSprites
         //SpriteBatch for drawing
         SpriteBatch spriteBatch;
         //spawn stuff
-        int enemySpawnMinMilliseconds = 1000;
+        int enemySpawnMinMilliseconds = 5000;
         int enemySpawnMaxMilliseconds = 6000;
         //A sprite for the player and a list of automated sprites
-        List<Sprite> spriteList = new List<Sprite>();
+        List<Sprite> tanks = new List<Sprite>();
         Vector2 MiddleEnemyPosition { get; set; }
         Vector2 LeftEnemyPosition { get; set; }
         Vector2 RightEnemyPosition { get; set; }
@@ -57,16 +57,16 @@ namespace AnimatedSprites
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            spriteList.Add(new UserArrowControlled(Default.GetUserTankSetting(Game, RightUserPosition), Default.GetMissileSetting(Game)));
+            UserArrowControlled user = new UserArrowControlled(Default.GetUserTankSetting(Game, RightUserPosition), Default.GetMissileSetting(Game));
+            MapInfo.user = user;
+            tanks.Add(user);
             if (isTwoPLayer)
-                spriteList.Add(new UserWASDControlled(Default.GetUserTankSetting(Game, LeftUserPosition), Default.GetMissileSetting(Game)));
+                tanks.Add(new UserWASDControlled(Default.GetUserTankSetting(Game, LeftUserPosition), Default.GetMissileSetting(Game)));
 
-            Dictionary<Vector2, byte> walls = SpriteUtils.GetDynamicMap();
-            foreach (KeyValuePair<Vector2, byte> pos in walls)
-                spriteList.Add(SpriteUtils.GetWall(pos.Value, pos.Key, Game));
+            MapInfo.Init(SpriteUtils.GetDynamicMap(Game));
 
             //Configure Utils
-            Collisions.Walls = spriteList;
+            Collisions.Tanks = tanks;
 
             base.LoadContent();
         }
@@ -77,13 +77,12 @@ namespace AnimatedSprites
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (spriteList.Find(item => item is UserControlledTank) == null)
-            {
+            if (tanks.Find(item => item is UserControlledTank) == null)
                 ((Game1)Game).EndGame();
-            }
 
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
-            if (nextSpawnTime < 0)
+            int aiCoiunt = tanks.Count(item => item is AITank);
+            if (nextSpawnTime < 0 && aiCoiunt < 3)
             {
                 SpawnEnemy();
                 // —брасываем таймер
@@ -95,36 +94,44 @@ namespace AnimatedSprites
 
         void UpdateSprites(GameTime gameTime)
         {
-            if (spriteList.Count > 0)
+            if (tanks.Count > 0)
             {
                 List<Sprite> spawnedSprites = new List<Sprite>();
-                for (int i = 0; i < spriteList.Count; ++i)
+                for (int i = 0; i < tanks.Count; ++i)
                 {
-                    Sprite s = spriteList[i];
+                    Sprite s = tanks[i];
 
-                    s.Update(gameTime, Game.Window.ClientBounds);
+                    s.Update(gameTime);
 
                     if (s is Missile)
                     {
-                        for (int j = 0; j < spriteList.Count; j++)
+                        for (int j = 0; j < tanks.Count; j++)
                         {
                             if (i == j)
                                 continue;
 
-                            if (spriteList[j].State == SpriteState.Alive &&
+                            if (tanks[j].State == SpriteState.Alive &&
                                 s.State == SpriteState.Alive &&
-                                s.collisionRect.Intersects(spriteList[j].collisionRect))
+                                s.collisionRect.Intersects(tanks[j].collisionRect))
                             {
-                                Collisions.ReleaseCollision(s, spriteList[j]);
+                                Collisions.ReleaseCollision(s, tanks[j]);
                                 break;
                             }
                         }
+
+                        CellInformation cell = MapInfo.Intersects(s.collisionRect);
+                        if (cell != null)
+                        {
+                            cell.ClearOwner();
+                            s.Destroy();
+                        }
+
                     }
 
                     if (s is Tank)
                     {
                         Missile m = (s as Tank).CurrentMissle;
-                        if (m != null && m.State == SpriteState.Alive && !spriteList.Contains(m) && !spawnedSprites.Contains(m))
+                        if (m != null && m.State == SpriteState.Alive && !tanks.Contains(m) && !spawnedSprites.Contains(m))
                             spawnedSprites.Add(m);
                     }
 
@@ -134,12 +141,12 @@ namespace AnimatedSprites
 
                     if (s.State == SpriteState.Destroyed)
                     {
-                        spriteList.RemoveAt(i);
+                        tanks.RemoveAt(i);
                         --i;
                     }
                 }
 
-                spriteList.AddRange(spawnedSprites);
+                tanks.AddRange(spawnedSprites);
             }
         }
 
@@ -147,7 +154,8 @@ namespace AnimatedSprites
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
 
-            foreach (Sprite s in spriteList)
+            MapInfo.Draw(gameTime, spriteBatch);
+            foreach (Sprite s in tanks)
                 s.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
@@ -168,7 +176,8 @@ namespace AnimatedSprites
             SpawnPlace place = RandomUtils.GetRandomEnemySpawnPlace();
             Vector2 pos = GetSpawnPosition(place);
             if (IsAllowedSpawnPosition(pos))
-                spriteList.Add(new SmartTank(Default.GetEnemyTankSetting(Game, pos),
+                tanks.Add(new SmartTank
+                    (Default.GetEnemyTankSetting(Game, pos),
                     Default.GetMissileSetting(Game)));
         }
 
@@ -194,13 +203,18 @@ namespace AnimatedSprites
 
         public bool IsAllowedSpawnPosition(Vector2 position)
         {
-            Rectangle rect = new Rectangle((int)position.X, (int)position.Y, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y);
-            foreach (var item in spriteList)
+            Rectangle rec = new Rectangle((int)position.X, (int)position.Y, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X, AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y);
+            bool result = MapInfo.Intersects(rec) == null;
+            if (result)
             {
-                if (item.collisionRect.Intersects(rect))
-                    return false;
+                for (int i = 0; i < tanks.Count; i++)
+                {
+                    if (tanks[i].collisionRect.Intersects(rec))
+                        return false;
+                }
             }
-            return true;
+
+            return result;
         }
 
     }

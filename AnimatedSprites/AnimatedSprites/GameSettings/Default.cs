@@ -61,14 +61,25 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetWallSetting(Game game, Vector2 startPosition)
         {
+            return GetStaticSetting(game, startPosition, new Point(256, 0));
+        }
+
+        public static SpriteSettings GetBushSetting(Game game, Vector2 startPosition)
+        {
+            return GetStaticSetting(game, startPosition, new Point(272, 32));
+        }
+
+        private static SpriteSettings GetStaticSetting(Game game, Vector2 startPosition, Point startFrame)
+        {
             return Default.GetCustomSetting(1, 0, game.Content.Load<Texture2D>(textureImageFile), WallSetting.FrameSize,
-                new Point(256, 0), startPosition, 0, "CollisionMissle", 1, Team.StaticTeam);
+                startFrame, startPosition, 0, "CollisionMissle", 1, Team.StaticTeam);
         }
 
         public class TankSetting
         {
             public static readonly Point FrameSize = new Point(13, 13);
             public const int FireGCD = 500;
+            public const int MemoryTime = 20000;
         }
 
         public class WallSetting

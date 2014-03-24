@@ -47,9 +47,9 @@ namespace AnimatedSprites
             }
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            base.Update(gameTime, clientBounds);
+            base.Update(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 Fire();

@@ -13,6 +13,7 @@ namespace AnimatedSprites
         public SmartTank(SpriteSettings settings, SpriteSettings missileSetting)
             : base(settings, missileSetting)
         {
+            UserVisibleDirection = Direction.None;
         }
 
         private Direction UserVisibleDirection { get; set; }
@@ -22,58 +23,71 @@ namespace AnimatedSprites
         {
             get
             {
-                UserVisibleDirection = Collisions.GetUserVisibleDirection(this, AllowedDirections);
-
-                if (UserVisibleDirection == Direction.None)
+                Vector2 userPos = MapInfo.GetUserVisiblePosition(position);
+                MapInfo.SetVisitTime(position);
+                if (userPos == Vector2.Zero)
                 {
                     if (!AllowedDirections.Contains(_MoveDirection))
                     {
-                        Vector2 userTankPosition = Collisions.GetUserPosition(this.GetPosition);
-
-                        Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
-                        if (AllowedDirections.Contains(maxD))
-                            _MoveDirection = maxD;
-                        else
+                        Vector2 userTankPosition = MapInfo.GetUserPosition();
+                        if (userTankPosition == position)
+                            MapInfo.LostUserPosition();
+                        if (MapInfo.UserDetected)
                         {
-
-                            Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
-                            if (AllowedDirections.Contains(minD))
-                                _MoveDirection = minD;
+                            Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
+                            if (AllowedDirections.Contains(maxD))
+                                _MoveDirection = maxD;
                             else
                             {
 
-                                if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
-                                    _MoveDirection = maxD;
+                                Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                                if (AllowedDirections.Contains(minD))
+                                    _MoveDirection = minD;
                                 else
                                 {
 
-                                    if (AllowedDirections.Count > 0)
-                                        do
-                                        {
-                                            _MoveDirection = RandomUtils.GetRandomDirection();
-                                        } while (!AllowedDirections.Contains(_MoveDirection));
+                                    if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                                        _MoveDirection = maxD;
                                     else
-                                        _MoveDirection = Direction.None;
+                                    {
+
+                                        if (AllowedDirections.Count > 0)
+                                            do
+                                            {
+                                                _MoveDirection = RandomUtils.GetRandomDirection();
+                                            } while (!AllowedDirections.Contains(_MoveDirection));
+                                        else
+                                            _MoveDirection = Direction.None;
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            _MoveDirection = MapInfo.GetOldestDirection(position, AllowedDirections);
+                            return _MoveDirection;
                         }
                     }
                 }
                 else
+                {
+                    UserVisibleDirection = AIUtils.GetMaxDirection(this.GetPosition - userPos);
                     _MoveDirection = UserVisibleDirection;
+                    MapInfo.SetUserPosition(userPos);
+                }
 
                 return _MoveDirection;
             }
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Rectangle clientBounds)
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastFrame > millisecondsPerFrame)
             {
                 // Increment to next frame
                 timeSinceLastFrame = 0;
-                base.Update(gameTime, clientBounds);
+                base.Update(gameTime);
                 if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
                     Fire();
             }

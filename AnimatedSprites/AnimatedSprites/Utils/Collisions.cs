@@ -8,7 +8,7 @@ namespace AnimatedSprites.Utils
 {
     static class Collisions
     {
-        public static List<Sprite> Walls;
+        public static List<Sprite> Tanks;
         public static Rectangle GameWindow { get; set; }
         public static void ReleaseCollision(Sprite firstSprite, Sprite secondSprite)
         {
@@ -59,7 +59,7 @@ namespace AnimatedSprites.Utils
             if (IsOutOfBounds(downRect, GameWindow))
                 direcs.Remove(Direction.Down);
 
-            foreach (Sprite w in Walls)
+            foreach (Sprite w in Tanks)
             {
                 if (direcs.Count == 0)
                     break;
@@ -76,14 +76,23 @@ namespace AnimatedSprites.Utils
                     direcs.Remove(Direction.Down);
             }
 
+            if (direcs.Contains(Direction.Up) && MapInfo.Intersects(upRect) != null)
+                direcs.Remove(Direction.Up);
+            if (direcs.Contains(Direction.Right) && MapInfo.Intersects(rightRect) != null)
+                direcs.Remove(Direction.Right);
+            if (direcs.Contains(Direction.Left) && MapInfo.Intersects(leftRect) != null)
+                direcs.Remove(Direction.Left);
+            if (direcs.Contains(Direction.Down) && MapInfo.Intersects(downRect) != null)
+                direcs.Remove(Direction.Down);
+
             return direcs;
         }
 
         public static Direction GetUserVisibleDirection(AITank tank, List<Direction> allowedDirections)
         {
-            if (Walls != null)
+            if (Tanks != null)
             {
-                foreach (var item in Walls)
+                foreach (var item in Tanks)
                 {
                     if (!(item is UserControlledTank))
                         continue;
@@ -108,7 +117,7 @@ namespace AnimatedSprites.Utils
             float minDistance = float.MaxValue;
             float distance = 0.0f;
 
-            foreach (Sprite sprite in Walls)
+            foreach (Sprite sprite in Tanks)
             {
                 if (sprite is UserControlledTank)
                 {

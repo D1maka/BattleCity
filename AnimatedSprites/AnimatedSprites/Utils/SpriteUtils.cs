@@ -19,7 +19,7 @@ namespace AnimatedSprites.Utils
                 case Default.WallSetting.Wall:
                     return new Wall(Default.GetWallSetting(game, position));
                 case Default.WallSetting.Bush:
-                    return new Bush(Default.GetWallSetting(game, position));
+                    return new Bush(Default.GetBushSetting(game, position));
                 default:
                     return null;
             }
@@ -50,8 +50,8 @@ namespace AnimatedSprites.Utils
                 {
                     if (map[i, j] > 0)
                     {
-                        walls.Add(new Vector2(j * Default.WallSetting.FrameSize.X * SpriteSettings.Scale,
-                            i * Default.WallSetting.FrameSize.Y * SpriteSettings.Scale), map[i, j]);
+                        walls.Add(new Vector2(j * Default.WallSetting.FrameSize.X * (int)SpriteSettings.Scale,
+                            i * Default.WallSetting.FrameSize.Y * (int)SpriteSettings.Scale), map[i, j]);
                     }
                 }
             }
@@ -59,10 +59,10 @@ namespace AnimatedSprites.Utils
             return walls;
         }
 
-        public static Dictionary<Vector2, byte> GetDynamicMap()
+        public static Dictionary<Vector2, CellInformation> GetDynamicMap(Game game)
         {
-            Dictionary<Vector2, byte> walls = new Dictionary<Vector2, byte>();
-            int N = GameWindow.Height / Default.WallSetting.FrameSize.Y, M = GameWindow.Width / Default.WallSetting.FrameSize.X;
+            Dictionary<Vector2, CellInformation> walls = new Dictionary<Vector2, CellInformation>();
+            int N = (int)(GameWindow.Height / Default.WallSetting.FrameSize.Y / SpriteSettings.Scale), M = (int)(GameWindow.Width / Default.WallSetting.FrameSize.X / SpriteSettings.Scale);
 
             byte[,] map = new byte[N, M];
 
@@ -71,11 +71,9 @@ namespace AnimatedSprites.Utils
                 for (int j = 0; j < M; j++)
                 {
                     map[i, j] = RandomUtils.GetRandomStaticSprite();
-                    if (map[i, j] > 0)
-                    {
-                        walls.Add(new Vector2(j * Default.WallSetting.FrameSize.X * SpriteSettings.Scale,
-                            i * Default.WallSetting.FrameSize.Y * SpriteSettings.Scale), map[i, j]);
-                    }
+                    Vector2 pos = new Vector2(j * Default.WallSetting.FrameSize.X * SpriteSettings.Scale,
+                        i * Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+                    walls.Add(pos, new CellInformation(map[i, j], pos, game));
                 }
             }
 

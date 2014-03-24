@@ -6,6 +6,8 @@ using AnimatedSprites.GameSettings;
 
 namespace AnimatedSprites
 {
+    interface ICollidable { };
+
     abstract class StaticSprite : Sprite
     {
         public StaticSprite(SpriteSettings setting)

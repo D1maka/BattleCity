@@ -6,7 +6,7 @@ using AnimatedSprites.GameSettings;
 
 namespace AnimatedSprites
 {
-    class Wall : StaticSprite
+    class Wall : StaticSprite,ICollidable
     {
         public Wall(SpriteSettings setting)
             : base(setting)

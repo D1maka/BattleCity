@@ -35,14 +35,14 @@ namespace AnimatedSprites
             return CurrentMissle;
         }
 
-        public override void Update(GameTime gameTime, Rectangle clientBounds)
+        public override void Update(GameTime gameTime)
         {
             if (GCD >= 0)
                 GCD -= gameTime.ElapsedGameTime.Milliseconds;
 
             AllowedDirections = Collisions.GetAllowedDirections(this, speedValue);
             position += speed;
-            base.Update(gameTime, clientBounds);
+            base.Update(gameTime);
         }
 
         public Vector2 GetMissileStartPosition()
