@@ -79,5 +79,15 @@ namespace AnimatedSprites.Utils
 
             return walls;
         }
+
+        public static bool IsYAxisFromDirection(Direction d)
+        {
+            return d == Direction.Up || d == Direction.Down;
+        }
+
+        public static bool CoordinateEqualToZero(int value)
+        {
+            return Math.Abs(value) < AnimatedSprites.GameSettings.Default.TankSetting.SpeedValue;
+        }
     }
 }

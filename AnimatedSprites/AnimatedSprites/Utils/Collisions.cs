@@ -9,7 +9,7 @@ namespace AnimatedSprites.Utils
     static class Collisions
     {
         public static List<Sprite> Tanks;
-        public static Rectangle GameWindow { get; set; }
+        public static Rectangle GameWindow { get { return SpriteUtils.GameWindow; } }
         public static void ReleaseCollision(Sprite firstSprite, Sprite secondSprite)
         {
             if (firstSprite is Missile)
@@ -88,50 +88,50 @@ namespace AnimatedSprites.Utils
             return direcs;
         }
 
-        public static Direction GetUserVisibleDirection(AITank tank, List<Direction> allowedDirections)
-        {
-            if (Tanks != null)
-            {
-                foreach (var item in Tanks)
-                {
-                    if (!(item is UserControlledTank))
-                        continue;
+        //public static Direction GetUserVisibleDirection(AITank tank, List<Direction> allowedDirections)
+        //{
+        //    if (Tanks != null)
+        //    {
+        //        foreach (var item in Tanks)
+        //        {
+        //            if (!(item is UserControlledTank))
+        //                continue;
 
-                    if ((allowedDirections.Contains(Direction.Left)) && tank.LeftRectangle.Intersects(item.collisionRect))
-                        return Direction.Left;
-                    else if ((allowedDirections.Contains(Direction.Right)) && tank.RightRectangle.Intersects(item.collisionRect))
-                        return Direction.Right;
-                    else if ((allowedDirections.Contains(Direction.Up)) && tank.UpRectangle.Intersects(item.collisionRect))
-                        return Direction.Up;
-                    else if ((allowedDirections.Contains(Direction.Down)) && tank.DownRectangle.Intersects(item.collisionRect))
-                        return Direction.Down;
-                }
-            }
+        //            if ((allowedDirections.Contains(Direction.Left)) && tank.LeftRectangle.Intersects(item.collisionRect))
+        //                return Direction.Left;
+        //            else if ((allowedDirections.Contains(Direction.Right)) && tank.RightRectangle.Intersects(item.collisionRect))
+        //                return Direction.Right;
+        //            else if ((allowedDirections.Contains(Direction.Up)) && tank.UpRectangle.Intersects(item.collisionRect))
+        //                return Direction.Up;
+        //            else if ((allowedDirections.Contains(Direction.Down)) && tank.DownRectangle.Intersects(item.collisionRect))
+        //                return Direction.Down;
+        //        }
+        //    }
 
-            return Direction.None;
-        }
+        //    return Direction.None;
+        //}
 
-        public static Vector2 GetUserPosition(Vector2 aiPosition)
-        {
-            Vector2 closest = aiPosition;
-            float minDistance = float.MaxValue;
-            float distance = 0.0f;
+        //public static Vector2 GetUserPosition(Vector2 aiPosition)
+        //{
+        //    Vector2 closest = aiPosition;
+        //    float minDistance = float.MaxValue;
+        //    float distance = 0.0f;
 
-            foreach (Sprite sprite in Tanks)
-            {
-                if (sprite is UserControlledTank)
-                {
-                    Vector2 currentSpritePosition = sprite.GetPosition;
-                    distance = (currentSpritePosition - aiPosition).Length();
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-                        closest = currentSpritePosition;
-                    }
-                }
-            }
+        //    foreach (Sprite sprite in Tanks)
+        //    {
+        //        if (sprite is UserControlledTank)
+        //        {
+        //            Vector2 currentSpritePosition = sprite.GetPosition;
+        //            distance = (currentSpritePosition - aiPosition).Length();
+        //            if (distance < minDistance)
+        //            {
+        //                minDistance = distance;
+        //                closest = currentSpritePosition;
+        //            }
+        //        }
+        //    }
 
-            return closest;
-        }
+        //    return closest;
+        //}
     }
 }

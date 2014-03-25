@@ -58,7 +58,7 @@ namespace AnimatedSprites
             int minTimeToVisibility = int.MaxValue;
             if (allowedDirection.Contains(Direction.Left))
             {
-                Vector2 leftPos = new Vector2(position.X - Default.WallSetting.FrameSize.X * SpriteSettings.Scale, position.Y);
+                Vector2 leftPos = new Vector2(position.X - Default.CellSetting.CellSize.X, position.Y);
                 CellInformation currentCell = GetCell(leftPos);
 
                 if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
@@ -70,7 +70,7 @@ namespace AnimatedSprites
 
             if (allowedDirection.Contains(Direction.Right))
             {
-                Vector2 leftPos = new Vector2(position.X + Default.TankSetting.FrameSize.X * SpriteSettings.Scale + Default.WallSetting.FrameSize.X * SpriteSettings.Scale, position.Y);
+                Vector2 leftPos = new Vector2(position.X + Default.TankSetting.FrameSize.X * SpriteSettings.Scale + Default.CellSetting.CellSize.X, position.Y);
                 CellInformation currentCell = GetCell(leftPos);
 
                 if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
@@ -82,7 +82,7 @@ namespace AnimatedSprites
 
             if (allowedDirection.Contains(Direction.Up))
             {
-                Vector2 leftPos = new Vector2(position.X, position.Y - Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+                Vector2 leftPos = new Vector2(position.X, position.Y - Default.CellSetting.CellSize.Y);
                 CellInformation currentCell = GetCell(leftPos);
 
                 if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
@@ -94,7 +94,7 @@ namespace AnimatedSprites
 
             if (allowedDirection.Contains(Direction.Down))
             {
-                Vector2 leftPos = new Vector2(position.X, position.Y + Default.TankSetting.FrameSize.Y * SpriteSettings.Scale + Default.WallSetting.FrameSize.Y * SpriteSettings.Scale);
+                Vector2 leftPos = new Vector2(position.X, position.Y + Default.TankSetting.FrameSize.Y * SpriteSettings.Scale + Default.CellSetting.CellSize.Y);
                 CellInformation currentCell = GetCell(leftPos);
 
                 if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
@@ -109,10 +109,10 @@ namespace AnimatedSprites
 
         public static CellInformation GetCell(Vector2 position)
         {
-            int x = (int)Math.Round(position.X / (Default.WallSetting.FrameSize.X * SpriteSettings.Scale));
-            int y = (int)Math.Round(position.Y / (Default.WallSetting.FrameSize.Y * SpriteSettings.Scale));
-            x *= (Default.WallSetting.FrameSize.X * (int)SpriteSettings.Scale);
-            y *= (Default.WallSetting.FrameSize.Y * (int)SpriteSettings.Scale);
+            int x = (int)Math.Round(position.X / (Default.CellSetting.CellSize.X));
+            int y = (int)Math.Round(position.Y / (Default.CellSetting.CellSize.Y));
+            x *= Default.CellSetting.CellSize.X;
+            y *= Default.CellSetting.CellSize.Y;
             Vector2 v = new Vector2(x, y);
 
             if (Map.ContainsKey(v))
@@ -129,14 +129,14 @@ namespace AnimatedSprites
 
         public static Vector2 GetUserVisiblePosition(Vector2 tankPosition)
         {
-            int x = (int)(tankPosition.X / (Default.WallSetting.FrameSize.X * (int)SpriteSettings.Scale));
-            int y = (int)(tankPosition.Y / (Default.WallSetting.FrameSize.Y * (int)SpriteSettings.Scale));
-            x *= (Default.WallSetting.FrameSize.X * (int)SpriteSettings.Scale);
-            y *= (Default.WallSetting.FrameSize.Y * (int)SpriteSettings.Scale);
+            int x = (int)(tankPosition.X / (Default.CellSetting.CellSize.X));
+            int y = (int)(tankPosition.Y / (Default.CellSetting.CellSize.Y));
+            x *= (Default.CellSetting.CellSize.X);
+            y *= (Default.CellSetting.CellSize.Y);
 
             for (int i = 1; i < 20; i++)
             {
-                Vector2 v = new Vector2(x + (i * Default.WallSetting.FrameSize.X * SpriteSettings.Scale), y);
+                Vector2 v = new Vector2(x + (i * Default.CellSetting.CellSize.X), y);
                 bool? result = Check(v);
                 if (result == true)
                     return v;
@@ -146,7 +146,7 @@ namespace AnimatedSprites
 
             for (int i = 1; i < 20; i++)
             {
-                Vector2 v = new Vector2(x + (-i * Default.WallSetting.FrameSize.X * SpriteSettings.Scale), y);
+                Vector2 v = new Vector2(x + (-i * Default.CellSetting.CellSize.X), y);
                 bool? result = Check(v);
                 if (result == true)
                     return v;
@@ -156,7 +156,7 @@ namespace AnimatedSprites
 
             for (int i = 1; i < 20; i++)
             {
-                Vector2 v = new Vector2(x, y + (-i * Default.WallSetting.FrameSize.Y * SpriteSettings.Scale));
+                Vector2 v = new Vector2(x, y + (-i * Default.CellSetting.CellSize.Y));
                 bool? result = Check(v);
                 if (result == true)
                     return v;
@@ -166,7 +166,7 @@ namespace AnimatedSprites
 
             for (int i = 1; i < 20; i++)
             {
-                Vector2 v = new Vector2(x, y + (i * Default.WallSetting.FrameSize.Y * SpriteSettings.Scale));
+                Vector2 v = new Vector2(x, y + (i * Default.CellSetting.CellSize.Y));
                 bool? result = Check(v);
                 if (result == true)
                     return v;

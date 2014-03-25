@@ -47,14 +47,14 @@ namespace AnimatedSprites.GameSettings
 
         public static SpriteSettings GetUserTankSetting(Game game, Vector2 startPosition)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, TankSetting.SpeedValue, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
                 new Point(1, 2), startPosition, 0, "CollisionMissle", 0, Team.UserTeam);
             return spriteSettings;
         }
 
         public static SpriteSettings GetEnemyTankSetting(Game game, Vector2 startPosition)
         {
-            SpriteSettings spriteSettings = Default.GetCustomSetting(1, 1, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
+            SpriteSettings spriteSettings = Default.GetCustomSetting(1, TankSetting.SpeedValue, game.Content.Load<Texture2D>(textureImageFile), TankSetting.FrameSize,
                 new Point(11, 11), startPosition, 0, "CollisionMissle", 0, Team.EnemyTeam);
             return spriteSettings;
         }
@@ -80,6 +80,7 @@ namespace AnimatedSprites.GameSettings
             public static readonly Point FrameSize = new Point(13, 13);
             public const int FireGCD = 500;
             public const int MemoryTime = 20000;
+            public const int SpeedValue = 1;
         }
 
         public class WallSetting
@@ -101,6 +102,11 @@ namespace AnimatedSprites.GameSettings
             public const int UserTeam = 1;
             public const int EnemyTeam = 2;
             public const int StaticTeam = 3;
+        }
+
+        public class CellSetting
+        {
+            public static readonly Point CellSize = new Point((int)(SpriteSettings.Scale * WallSetting.FrameSize.X), (int)(SpriteSettings.Scale * WallSetting.FrameSize.Y));
         }
     }
 }

@@ -23,58 +23,69 @@ namespace AnimatedSprites
         {
             get
             {
-                Vector2 userPos = MapInfo.GetUserVisiblePosition(position);
+                //Set current cell Visit
                 MapInfo.SetVisitTime(position);
-                if (userPos == Vector2.Zero)
+
+                //Get User position. if == current lost user
+                Vector2 userTankPosition = MapInfo.GetUserPosition();
+                if (userTankPosition == position)
+                    LostUserPosition();
+
+                //Check visible user. If can see user "inform" all other tanks
+                Vector2 userPos = MapInfo.GetUserVisiblePosition(position);
+                if (userPos != Vector2.Zero)
                 {
+                    MapInfo.SetUserPosition(userPos);
+                    UserVisibleDirection = AIUtils.GetMaxDirection(GetPosition - userPos);
+                }
+                else
+                    UserVisibleDirection = Direction.None;
+
+                if (MapInfo.UserDetected)
+                {
+                    Vector2 difference = this.GetPosition - userTankPosition;
+                    if (SpriteUtils.IsYAxisFromDirection(_MoveDirection) && SpriteUtils.CoordinateEqualToZero((int)difference.Y)
+                        || !SpriteUtils.IsYAxisFromDirection(_MoveDirection) && SpriteUtils.CoordinateEqualToZero((int)difference.X))
+                        _MoveDirection = Direction.None;
+
                     if (!AllowedDirections.Contains(_MoveDirection))
                     {
-                        Vector2 userTankPosition = MapInfo.GetUserPosition();
-                        if (userTankPosition == position)
-                            MapInfo.LostUserPosition();
-                        if (MapInfo.UserDetected)
+                        //Smart Algo Start
+                        Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
+                        if (AllowedDirections.Contains(maxD))
+                            _MoveDirection = maxD;
+                        else
                         {
-                            Direction maxD = AIUtils.GetMaxDirection(this.GetPosition - userTankPosition);
-                            if (AllowedDirections.Contains(maxD))
-                                _MoveDirection = maxD;
+
+                            Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
+                            if (AllowedDirections.Contains(minD))
+                                _MoveDirection = minD;
                             else
                             {
 
-                                Direction minD = AIUtils.GetMinDirection(this.GetPosition - userTankPosition);
-                                if (AllowedDirections.Contains(minD))
-                                    _MoveDirection = minD;
+                                if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
+                                    _MoveDirection = maxD;
                                 else
                                 {
 
-                                    if (CurrentMissle == null || CurrentMissle.State == SpriteState.Destroyed)
-                                        _MoveDirection = maxD;
+                                    if (AllowedDirections.Count > 0)
+                                        do
+                                        {
+                                            _MoveDirection = RandomUtils.GetRandomDirection();
+                                        } while (!AllowedDirections.Contains(_MoveDirection));
                                     else
-                                    {
-
-                                        if (AllowedDirections.Count > 0)
-                                            do
-                                            {
-                                                _MoveDirection = RandomUtils.GetRandomDirection();
-                                            } while (!AllowedDirections.Contains(_MoveDirection));
-                                        else
-                                            _MoveDirection = Direction.None;
-                                    }
+                                        _MoveDirection = Direction.None;
                                 }
                             }
                         }
-                        else
-                        {
-                            _MoveDirection = MapInfo.GetOldestDirection(position, AllowedDirections);
-                            return _MoveDirection;
-                        }
                     }
+                    //Smart Algo End
                 }
                 else
                 {
-                    UserVisibleDirection = AIUtils.GetMaxDirection(this.GetPosition - userPos);
-                    _MoveDirection = UserVisibleDirection;
-                    MapInfo.SetUserPosition(userPos);
+                    _MoveDirection = MapInfo.GetOldestDirection(position, AllowedDirections);
                 }
+
 
                 return _MoveDirection;
             }
@@ -96,6 +107,12 @@ namespace AnimatedSprites
         public override void Destroy()
         {
             base.Destroy();
+        }
+
+        private void LostUserPosition()
+        {
+            UserVisibleDirection = Direction.None;
+            MapInfo.LostUserPosition();
         }
     }
 }

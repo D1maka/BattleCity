@@ -49,7 +49,6 @@ namespace AnimatedSprites
             LeftUserPosition = new Vector2(0, Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y * SpriteSettings.Scale);
             RightUserPosition = new Vector2(Game.Window.ClientBounds.Width - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.X * SpriteSettings.Scale, Game.Window.ClientBounds.Height - AnimatedSprites.GameSettings.Default.TankSetting.FrameSize.Y * SpriteSettings.Scale);
             RandomUtils.Game = Game;
-            Collisions.GameWindow = Game.Window.ClientBounds;
             SpriteUtils.GameWindow = Game.Window.ClientBounds;
             base.Initialize();
         }
