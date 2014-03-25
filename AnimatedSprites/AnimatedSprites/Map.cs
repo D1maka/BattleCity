@@ -68,9 +68,21 @@ namespace AnimatedSprites
                 }
             }
 
+            if (allowedDirection.Contains(Direction.Down))
+            {
+                Vector2 leftPos = new Vector2(position.X, position.Y + Default.CellSetting.CellSize.Y);
+                CellInformation currentCell = GetCell(leftPos);
+
+                if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
+                {
+                    minTimeToVisibility = currentCell.GetVisitTime();
+                    resultDirection = Direction.Down;
+                }
+            }
+
             if (allowedDirection.Contains(Direction.Right))
             {
-                Vector2 leftPos = new Vector2(position.X + Default.TankSetting.FrameSize.X * SpriteSettings.Scale + Default.CellSetting.CellSize.X, position.Y);
+                Vector2 leftPos = new Vector2(position.X + Default.CellSetting.CellSize.X, position.Y);
                 CellInformation currentCell = GetCell(leftPos);
 
                 if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
@@ -89,18 +101,6 @@ namespace AnimatedSprites
                 {
                     minTimeToVisibility = currentCell.GetVisitTime();
                     resultDirection = Direction.Up;
-                }
-            }
-
-            if (allowedDirection.Contains(Direction.Down))
-            {
-                Vector2 leftPos = new Vector2(position.X, position.Y + Default.TankSetting.FrameSize.Y * SpriteSettings.Scale + Default.CellSetting.CellSize.Y);
-                CellInformation currentCell = GetCell(leftPos);
-
-                if (currentCell != null && minTimeToVisibility > currentCell.GetVisitTime())
-                {
-                    minTimeToVisibility = currentCell.GetVisitTime();
-                    resultDirection = Direction.Down;
                 }
             }
 

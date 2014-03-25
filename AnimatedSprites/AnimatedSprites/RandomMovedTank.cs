@@ -18,24 +18,22 @@ namespace AnimatedSprites
 
 
         private Direction _MoveDirection = RandomUtils.GetRandomDirection();
-        public override Direction MoveDirection
+        public override Direction CalculateMoveDirection()
         {
-            get
-            {
-                if (_ChangeDirectionTime < 0 || !AllowedDirections.Contains(_MoveDirection))
-                {
-                    if (AllowedDirections.Count > 0)
-                        do
-                        {
-                            _MoveDirection = RandomUtils.GetRandomDirection();
-                        } while (!AllowedDirections.Contains(_MoveDirection));
-                    else
-                        _MoveDirection = Direction.None;
-                    SetChangeDirectionTime();
-                }
 
-                return _MoveDirection;
+            if (_ChangeDirectionTime < 0 || !AllowedDirections.Contains(_MoveDirection))
+            {
+                if (AllowedDirections.Count > 0)
+                    do
+                    {
+                        _MoveDirection = RandomUtils.GetRandomDirection();
+                    } while (!AllowedDirections.Contains(_MoveDirection));
+                else
+                    _MoveDirection = Direction.None;
+                SetChangeDirectionTime();
             }
+
+            return _MoveDirection;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)

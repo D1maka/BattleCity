@@ -37,10 +37,11 @@ namespace AnimatedSprites
 
         public override void Update(GameTime gameTime)
         {
+            AllowedDirections = Collisions.GetAllowedDirections(this, speedValue);
+            MoveDirection = CalculateMoveDirection();
             if (GCD >= 0)
                 GCD -= gameTime.ElapsedGameTime.Milliseconds;
 
-            AllowedDirections = Collisions.GetAllowedDirections(this, speedValue);
             position += speed;
             base.Update(gameTime);
         }

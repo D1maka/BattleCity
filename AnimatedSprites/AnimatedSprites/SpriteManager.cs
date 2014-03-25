@@ -24,8 +24,8 @@ namespace AnimatedSprites
         //SpriteBatch for drawing
         SpriteBatch spriteBatch;
         //spawn stuff
-        int enemySpawnMinMilliseconds = 5000;
-        int enemySpawnMaxMilliseconds = 6000;
+        int enemySpawnMinMilliseconds = 500;
+        int enemySpawnMaxMilliseconds = 1000;
         //A sprite for the player and a list of automated sprites
         List<Sprite> tanks = new List<Sprite>();
         Vector2 MiddleEnemyPosition { get; set; }
@@ -79,6 +79,8 @@ namespace AnimatedSprites
             if (tanks.Find(item => item is UserControlledTank) == null)
                 ((Game1)Game).EndGame();
 
+            UpdateSprites(gameTime);
+
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             int aiCoiunt = tanks.Count(item => item is AITank);
             if (nextSpawnTime < 0 && aiCoiunt < 3)
@@ -87,7 +89,6 @@ namespace AnimatedSprites
                 // —брасываем таймер
                 ResetSpawnTime();
             }
-            UpdateSprites(gameTime);
             base.Update(gameTime);
         }
 

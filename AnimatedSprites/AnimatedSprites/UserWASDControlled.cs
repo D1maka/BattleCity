@@ -14,37 +14,34 @@ namespace AnimatedSprites
         {
         }
 
-        public override Direction MoveDirection
+        public override Direction CalculateMoveDirection()
         {
-            get
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    DrawDirection = Direction.Left;
-                    if (AllowedDirections.Contains(Direction.Left))
-                        return Direction.Left;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    DrawDirection = Direction.Down;
-                    if (AllowedDirections.Contains(Direction.Down))
-                        return Direction.Down;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.W))
-                {
-                    DrawDirection = Direction.Up;
-                    if (AllowedDirections.Contains(Direction.Up))
-                        return Direction.Up;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    DrawDirection = Direction.Right;
-                    if (AllowedDirections.Contains(Direction.Right))
-                        return Direction.Right;
-                }
-
-                return Direction.None;
+                DrawDirection = Direction.Left;
+                if (AllowedDirections.Contains(Direction.Left))
+                    return Direction.Left;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                DrawDirection = Direction.Down;
+                if (AllowedDirections.Contains(Direction.Down))
+                    return Direction.Down;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                DrawDirection = Direction.Up;
+                if (AllowedDirections.Contains(Direction.Up))
+                    return Direction.Up;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                DrawDirection = Direction.Right;
+                if (AllowedDirections.Contains(Direction.Right))
+                    return Direction.Right;
+            }
+
+            return Direction.None;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)

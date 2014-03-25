@@ -55,11 +55,10 @@ namespace AnimatedSprites
             get { return position; }
         }
 
+        public abstract Direction CalculateMoveDirection();
+
         // Abstract definition of direction property
-        public abstract Direction MoveDirection
-        {
-            get;
-        }
+        protected Direction MoveDirection { get; set; }
 
         // Abstract definition of direction property
         private Direction _DrawDirection;

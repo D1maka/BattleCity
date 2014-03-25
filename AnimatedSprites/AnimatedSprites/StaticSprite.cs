@@ -15,9 +15,11 @@ namespace AnimatedSprites
         {
         }
 
-        public override Direction MoveDirection
+
+
+        public override Direction CalculateMoveDirection()
         {
-            get { return Direction.Up; }
+            return Direction.Up;
         }
     }
 }

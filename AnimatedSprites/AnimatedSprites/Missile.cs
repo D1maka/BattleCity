@@ -16,13 +16,14 @@ namespace AnimatedSprites
             fireDirection = direction;
         }
 
-        public override Direction MoveDirection
+        public override Direction CalculateMoveDirection()
         {
-            get { return fireDirection; }
+            return fireDirection; 
         }
 
         public override void Update(GameTime gameTime)
         {
+            MoveDirection = CalculateMoveDirection();
             position += speed;
             base.Update(gameTime);
         }
