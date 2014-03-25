@@ -62,7 +62,7 @@ namespace AnimatedSprites
             if (isTwoPLayer)
                 tanks.Add(new UserWASDControlled(Default.GetUserTankSetting(Game, LeftUserPosition), Default.GetMissileSetting(Game)));
 
-            MapInfo.Init(SpriteUtils.GetDynamicMap(Game));
+            MapInfo.Init(SpriteUtils.GetStaticMap(Game));
 
             //Configure Utils
             Collisions.Tanks = tanks;
@@ -83,7 +83,7 @@ namespace AnimatedSprites
 
             nextSpawnTime -= gameTime.ElapsedGameTime.Milliseconds;
             int aiCoiunt = tanks.Count(item => item is AITank);
-            if (nextSpawnTime < 0 && aiCoiunt < 3)
+            if (nextSpawnTime < 0 && aiCoiunt < 1)
             {
                 SpawnEnemy();
                 // —брасываем таймер

@@ -24,11 +24,6 @@ namespace AnimatedSprites
             //Set current cell Visit
             MapInfo.SetVisitTime(position);
 
-            //Get User position. if == current lost user
-            Vector2 userTankPosition = MapInfo.GetUserPosition();
-            if (userTankPosition == position)
-                LostUserPosition();
-
             //Check visible user. If can see user "inform" all other tanks
             Vector2 userPos = MapInfo.GetUserVisiblePosition(position);
             if (userPos != Vector2.Zero)
@@ -38,6 +33,11 @@ namespace AnimatedSprites
             }
             else
                 UserVisibleDirection = Direction.None;
+
+            //Get User position. if == current lost user
+            Vector2 userTankPosition = MapInfo.GetUserPosition();
+            if (userTankPosition == position)
+                LostUserPosition();
 
             if (MapInfo.UserDetected)
             {
@@ -95,15 +95,10 @@ namespace AnimatedSprites
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastFrame > millisecondsPerFrame)
-            {
-                // Increment to next frame
-                timeSinceLastFrame = 0;
-                base.Update(gameTime);
-                if (UserVisibleDirection == DrawDirection || MoveDirection != Direction.None && !AllowedDirections.Contains(MoveDirection))
-                    Fire();
-            }
+            // Increment to next frame
+            base.Update(gameTime);
+            if (UserVisibleDirection == DrawDirection || MoveDirection == Direction.None || !AllowedDirections.Contains(MoveDirection))
+                Fire();
         }
 
         public override void Destroy()

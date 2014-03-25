@@ -79,7 +79,7 @@ namespace AnimatedSprites.GameSettings
         {
             public static readonly Point FrameSize = new Point(13, 13);
             public const int FireGCD = 500;
-            public const int MemoryTime = 20000;
+            public const int MemoryTime = 200000;
             public const int SpeedValue = 1;
         }
 
